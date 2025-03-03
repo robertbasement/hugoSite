@@ -8,4 +8,7 @@ relativeURLs = true
     url = "/portfolio/"
     weight = 2
 
+[permalinks]
+blog = "/blog/:filename/"
+
 
