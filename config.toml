@@ -9,4 +9,4 @@ relativeURLs = true
     weight = 2
 
 [permalinks]
-  blog = "/blog/:year/:month/:day/:slug/"
+  blog = "/blog/:slug/"
