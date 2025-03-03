@@ -2,49 +2,49 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/</loc>
+    <loc>https://robertbasement.github.io/hugoSite/</loc>
     <lastmod>2025-02-14T10:10:52+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/projects/</loc>
+    <loc>https://robertbasement.github.io/hugoSite/projects/</loc>
     <lastmod>2025-02-14T10:06:55+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/blog/2_post/</loc>
+    <loc>https://robertbasement.github.io/hugoSite/blog/2017/09/16/2-the-10-golden-rules-of-clean-simple-design/</loc>
     <lastmod>2017-09-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/blog/3_post/</loc>
+    <loc>https://robertbasement.github.io/hugoSite/blog/2017/09/16/3.the-10-golden-rules-of-clean-simple-design/</loc>
     <lastmod>2017-09-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/blog/4_post/</loc>
+    <loc>https://robertbasement.github.io/hugoSite/blog/2017/09/16/4.the-10-golden-rules-of-clean-simple-design/</loc>
     <lastmod>2017-09-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/blog/5_post/</loc>
+    <loc>https://robertbasement.github.io/hugoSite/blog/2017/09/16/5.the-10-golden-rules-of-clean-simple-design/</loc>
     <lastmod>2017-09-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/blog/</loc>
+    <loc>https://robertbasement.github.io/hugoSite/blog/</loc>
     <lastmod>2017-09-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/categories/branding/</loc>
+    <loc>https://robertbasement.github.io/hugoSite/categories/branding/</loc>
     <lastmod>2017-09-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/categories/</loc>
+    <loc>https://robertbasement.github.io/hugoSite/categories/</loc>
     <lastmod>2017-09-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/categories/design/</loc>
+    <loc>https://robertbasement.github.io/hugoSite/categories/design/</loc>
     <lastmod>2017-09-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/blog/first_post/</loc>
+    <loc>https://robertbasement.github.io/hugoSite/blog/2017/09/16/the-10-golden-rules-of-clean-simple-design/</loc>
     <lastmod>2017-09-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/portfoilo/lighthouse/</loc>
+    <loc>https://robertbasement.github.io/hugoSite/portfoilo/lighthouse/</loc>
   </url><url>
-    <loc>http://localhost:1313/portfoilo/</loc>
+    <loc>https://robertbasement.github.io/hugoSite/portfoilo/</loc>
   </url><url>
-    <loc>http://localhost:1313/tags/</loc>
+    <loc>https://robertbasement.github.io/hugoSite/tags/</loc>
   </url><url>
-    <loc>http://localhost:1313/portfoilo/test1/</loc>
+    <loc>https://robertbasement.github.io/hugoSite/portfoilo/test1/</loc>
   </url><url>
-    <loc>http://localhost:1313/portfoilo/test2/</loc>
+    <loc>https://robertbasement.github.io/hugoSite/portfoilo/test2/</loc>
   </url><url>
-    <loc>http://localhost:1313/portfoilo/thebeetle/</loc>
+    <loc>https://robertbasement.github.io/hugoSite/portfoilo/thebeetle/</loc>
   </url>
 </urlset>

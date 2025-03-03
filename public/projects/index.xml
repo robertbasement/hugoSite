@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Projects on Robert Site</title>
-    <link>http://localhost:1313/projects/</link>
-    <description>Recent content in Projects on Robert Site</description>
+    <title>Projects on </title>
+    <link>https://robertbasement.github.io/hugoSite/projects/</link>
+    <description>Recent content in Projects on </description>
     <generator>Hugo</generator>
-    <language>en-us</language>
+    <language>en</language>
     <lastBuildDate></lastBuildDate>
-    <atom:link href="http://localhost:1313/projects/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://robertbasement.github.io/hugoSite/projects/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

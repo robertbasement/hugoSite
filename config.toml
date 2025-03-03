@@ -1,4 +1,4 @@
-baseURL = 'https://robertbasement.github.io/hugoSite/'
+baseURL = "https://robertbasement.github.io/hugoSite/"
 
 theme = 'hola'
 relativeURLs = true
