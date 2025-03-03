@@ -289,6 +289,8 @@
                 </h2>
                 <p>Permalink: {{ .Permalink }}</p>
                 <p>Blog hyper "{{ .RelPermalink }}"</p>
+                <p>Blog hyper 2 "{{ .RelPermalink | absURL }}"</p>
+
                 <p>Slug: {{ .Slug }}</p>
                 <p>Title: {{ .Title }}</p>
             </div>
@@ -303,15 +305,15 @@
                         {{ if in .Section "blog" }}
                             <article class="col-block">
                                 <div class="blog-date">
-                                    <a href="{{ .RelPermalink }}">{{ .Date.Format "Jan 02, 2006" }}</a>
+                                    <a href="{{ .RelPermalink | absURL }}">{{ .Date.Format "Jan 02, 2006" }}</a>
                                 </div>
                                 
-                                <h2 class="h01"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+                                <h2 class="h01"><a href="{{ .RelPermalink | absURL }}">{{ .Title }}</a></h2>
                                 <p>{{ .Summary }}</p>
     
                                 <div class="blog-cat">
                                     {{ range .Params.categories }}
-                                        <a href="{{ . | relURL }}">{{ . }}</a>
+                                        <a href="{{ . | absURL }}">{{ . }}</a>
                                     {{ end }}
                                 </div>
                             </article>
