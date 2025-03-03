@@ -1,0 +1,10 @@
+theme = 'hola'
+relativeURLs = true
+
+[[menu.main]]
+    name = "Portfolio"
+    url = "/portfolio/"
+    weight = 2
+
+[permalinks]
+  blog = "/blog/:year/:month/:day/:slug/"
