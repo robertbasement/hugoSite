@@ -1,10 +1,9 @@
 
 {{ define "main" }}
-    <!-- <h1>Welcome to {{ .Site.Title }}</h1> -->
 
 <!-- home
    ================================================== -->
-   <section id="home" class="s-home page-hero target-section" data-parallax="scroll" data-image-src="images/hero-bg.jpg" data-natural-width=3000 data-natural-height=2000 data-position-y=center>
+   <section id="home" class="s-home page-hero target-section" data-parallax="scroll" data-image-src="{{ "images/hero-bg.jpg" | absURL | safeURL}}"  data-natural-width=3000 data-natural-height=2000 data-position-y=center>
 
         <div class="overlay"></div>
         <div class="shadow-overlay"></div>
@@ -293,6 +292,7 @@
 
                 <p>Blog hyper 2 "{{ "/css/base.css" | absURL }}"</p>
 
+                  
 
                 <p>Slug: {{ .Slug }}</p>
                 <p>Title: {{ .Title }}</p>

@@ -20,9 +20,9 @@
 
 <body id="top">
 
-    <header class="s-header">
+    <!-- <header class="s-header">
         <div class="header-logo">
-            <a class="site-logo" href="{{ "/" | relURL }}"><img src="{{ "images/logo.png" | relURL }}" alt="Homepage"></a>
+            <a class="site-logo" href="{{ "/" | relURL }}"><img src="{{ "/images/logo.png" | relURL }}" alt="Homepage"></a>
         </div>
 
         <nav class="header-nav-wrap">
@@ -36,11 +36,13 @@
         </nav>
 
         <a class="header-menu-toggle" href="#0"><span>Menu</span></a>
-    </header>
+    </header> -->
+
+    {{ partial "header.html" . }}
 
     <article class="blog-single">
 
-        <div class="page-header page-header--single page-hero" style="background-image:url({{ .Params.hero_image | default "images/blog/blog-bg-02.jpg" }})">
+        <div class="page-header page-header--single page-hero" style="background-image:url({{ .Params.hero_image | default "/images/blog/blog-bg-02.jpg" }})">
             <div class="row page-header__content narrow">
                 <article class="col-full">
                     <div class="page-header__info">
@@ -76,11 +78,11 @@
 
     </article>
 
-    <footer>
+    <!-- <footer>
         <div class="row">
             <div class="col-full">
                 <div class="footer-logo">
-                    <a class="footer-site-logo" href="#0"><img src="{{ "images/logo.png" | relURL }}" alt="Homepage"></a>
+                    <a class="footer-site-logo" href="#0"><img src="{{ "/images/logo.png" | relURL }}" alt="Homepage"></a>
                 </div>
                 <ul class="footer-social">
                     <li><a href="#0"><i class="im im-facebook" aria-hidden="true"></i> Facebook</a></li>
@@ -101,15 +103,17 @@
                 </div>
             </div>
         </div>
-    </footer>
+    </footer> -->
 
+
+    {{ partial "footer.html" . }}
     <div id="preloader"> 
         <div id="loader"></div>
     </div>
 
-    <script src="{{ "js/jquery-3.2.1.min.js" | relURL }}"></script>
-    <script src="{{ "js/plugins.js" | relURL }}"></script>
-    <script src="{{ "js/main.js" | relURL }}"></script>
+    <script src="{{ "/js/jquery-3.2.1.min.js" | relURL }}"></script>
+    <script src="{{ "/js/plugins.js" | relURL }}"></script>
+    <script src="{{ "/js/main.js" | relURL }}"></script>
 
 </body>
 </html>

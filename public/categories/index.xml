@@ -2,24 +2,24 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on </title>
-    <link>https://robertbasement.github.io/hugoSite/categories/</link>
+    <link>http://localhost:1313/hugoSite/categories/</link>
     <description>Recent content in Categories on </description>
     <generator>Hugo</generator>
     <language>en</language>
     <lastBuildDate>Sat, 16 Sep 2017 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://robertbasement.github.io/hugoSite/categories/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/hugoSite/categories/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Branding</title>
-      <link>https://robertbasement.github.io/hugoSite/categories/branding/</link>
+      <link>http://localhost:1313/hugoSite/categories/branding/</link>
       <pubDate>Sat, 16 Sep 2017 00:00:00 +0000</pubDate>
-      <guid>https://robertbasement.github.io/hugoSite/categories/branding/</guid>
+      <guid>http://localhost:1313/hugoSite/categories/branding/</guid>
       <description></description>
     </item>
     <item>
       <title>Design</title>
-      <link>https://robertbasement.github.io/hugoSite/categories/design/</link>
+      <link>http://localhost:1313/hugoSite/categories/design/</link>
       <pubDate>Sat, 16 Sep 2017 00:00:00 +0000</pubDate>
-      <guid>https://robertbasement.github.io/hugoSite/categories/design/</guid>
+      <guid>http://localhost:1313/hugoSite/categories/design/</guid>
       <description></description>
     </item>
   </channel>

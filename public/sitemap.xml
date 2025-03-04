@@ -2,49 +2,49 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://robertbasement.github.io/hugoSite/</loc>
+    <loc>http://localhost:1313/hugoSite/</loc>
     <lastmod>2025-02-14T10:10:52+08:00</lastmod>
   </url><url>
-    <loc>https://robertbasement.github.io/hugoSite/projects/</loc>
+    <loc>http://localhost:1313/hugoSite/projects/</loc>
     <lastmod>2025-02-14T10:06:55+08:00</lastmod>
   </url><url>
-    <loc>https://robertbasement.github.io/hugoSite/blog/2_post/</loc>
+    <loc>http://localhost:1313/hugoSite/blog/2_post/</loc>
     <lastmod>2017-09-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://robertbasement.github.io/hugoSite/blog/3_post/</loc>
+    <loc>http://localhost:1313/hugoSite/blog/3_post/</loc>
     <lastmod>2017-09-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://robertbasement.github.io/hugoSite/blog/4_post/</loc>
+    <loc>http://localhost:1313/hugoSite/blog/4_post/</loc>
     <lastmod>2017-09-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://robertbasement.github.io/hugoSite/blog/5_post/</loc>
+    <loc>http://localhost:1313/hugoSite/blog/5_post/</loc>
     <lastmod>2017-09-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://robertbasement.github.io/hugoSite/blog/</loc>
+    <loc>http://localhost:1313/hugoSite/blog/</loc>
     <lastmod>2017-09-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://robertbasement.github.io/hugoSite/categories/branding/</loc>
+    <loc>http://localhost:1313/hugoSite/categories/branding/</loc>
     <lastmod>2017-09-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://robertbasement.github.io/hugoSite/categories/</loc>
+    <loc>http://localhost:1313/hugoSite/categories/</loc>
     <lastmod>2017-09-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://robertbasement.github.io/hugoSite/categories/design/</loc>
+    <loc>http://localhost:1313/hugoSite/categories/design/</loc>
     <lastmod>2017-09-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://robertbasement.github.io/hugoSite/blog/first_post/</loc>
+    <loc>http://localhost:1313/hugoSite/blog/first_post/</loc>
     <lastmod>2017-09-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://robertbasement.github.io/hugoSite/portfoilo/lighthouse/</loc>
+    <loc>http://localhost:1313/hugoSite/portfoilo/lighthouse/</loc>
   </url><url>
-    <loc>https://robertbasement.github.io/hugoSite/portfoilo/</loc>
+    <loc>http://localhost:1313/hugoSite/portfoilo/</loc>
   </url><url>
-    <loc>https://robertbasement.github.io/hugoSite/tags/</loc>
+    <loc>http://localhost:1313/hugoSite/tags/</loc>
   </url><url>
-    <loc>https://robertbasement.github.io/hugoSite/portfoilo/test1/</loc>
+    <loc>http://localhost:1313/hugoSite/portfoilo/test1/</loc>
   </url><url>
-    <loc>https://robertbasement.github.io/hugoSite/portfoilo/test2/</loc>
+    <loc>http://localhost:1313/hugoSite/portfoilo/test2/</loc>
   </url><url>
-    <loc>https://robertbasement.github.io/hugoSite/portfoilo/thebeetle/</loc>
+    <loc>http://localhost:1313/hugoSite/portfoilo/thebeetle/</loc>
   </url>
 </urlset>
