@@ -10,37 +10,37 @@
     <atom:link href="http://localhost:1313/hugoSite/categories/design/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>2-The 10 Golden Rules of Clean Simple Design</title>
-      <link>http://localhost:1313/hugoSite/blog/2_post/</link>
+      <link>http://localhost:1313/hugoSite/blog_post/2_post/</link>
       <pubDate>Sat, 16 Sep 2017 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/hugoSite/blog/2_post/</guid>
+      <guid>http://localhost:1313/hugoSite/blog_post/2_post/</guid>
       <description>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Pellentesque in ipsum id orci porta dapibus.</description>
     </item>
     <item>
       <title>3.The 10 Golden Rules of Clean Simple Design</title>
-      <link>http://localhost:1313/hugoSite/blog/3_post/</link>
+      <link>http://localhost:1313/hugoSite/blog_post/3_post/</link>
       <pubDate>Sat, 16 Sep 2017 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/hugoSite/blog/3_post/</guid>
+      <guid>http://localhost:1313/hugoSite/blog_post/3_post/</guid>
       <description>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Pellentesque in ipsum id orci porta dapibus.</description>
     </item>
     <item>
       <title>4.The 10 Golden Rules of Clean Simple Design</title>
-      <link>http://localhost:1313/hugoSite/blog/4_post/</link>
+      <link>http://localhost:1313/hugoSite/blog_post/4_post/</link>
       <pubDate>Sat, 16 Sep 2017 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/hugoSite/blog/4_post/</guid>
+      <guid>http://localhost:1313/hugoSite/blog_post/4_post/</guid>
       <description>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Pellentesque in ipsum id orci porta dapibus.</description>
     </item>
     <item>
       <title>5.The 10 Golden Rules of Clean Simple Design</title>
-      <link>http://localhost:1313/hugoSite/blog/5_post/</link>
+      <link>http://localhost:1313/hugoSite/blog_post/5_post/</link>
       <pubDate>Sat, 16 Sep 2017 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/hugoSite/blog/5_post/</guid>
+      <guid>http://localhost:1313/hugoSite/blog_post/5_post/</guid>
       <description>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Pellentesque in ipsum id orci porta dapibus.</description>
     </item>
     <item>
       <title>The 10 Golden Rules of Clean Simple Design</title>
-      <link>http://localhost:1313/hugoSite/blog/first_post/</link>
+      <link>http://localhost:1313/hugoSite/blog_post/first_post/</link>
       <pubDate>Sat, 16 Sep 2017 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/hugoSite/blog/first_post/</guid>
+      <guid>http://localhost:1313/hugoSite/blog_post/first_post/</guid>
       <description>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Pellentesque in ipsum id orci porta dapibus.</description>
     </item>
   </channel>

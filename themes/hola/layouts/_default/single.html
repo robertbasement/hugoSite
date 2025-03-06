@@ -1,26 +1,4 @@
-<!DOCTYPE html>
-<html class="no-js" lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ .Title }} - Hola</title>
-    <meta name="description" content="{{ .Summary }}">
-    <meta name="author" content="{{ .Params.author }}">
-
-    <link rel="stylesheet" href="{{ "/css/base.css" | relURL }}">
-    <link rel="stylesheet" href="{{ "/css/vendor.css" | relURL }}">
-    <link rel="stylesheet" href="{{ "/css/main.css" | relURL }}">
-
-    <script src="{{ "/js/modernizr.js" | relURL }}"></script>
-    <script src="{{ "/js/pace.min.js" | relURL }}"></script>
-    <link rel="shortcut icon" href="{{ "favicon.ico" | relURL }}" type="image/x-icon">
-    <link rel="icon" href="{{ "favicon.ico" | relURL }}" type="image/x-icon">
-</head>
-
-<body id="top">
-
-    {{ partial "header.html" . }}
+{{ define "main" }}
 
     <article class="blog-single">
 
@@ -60,15 +38,5 @@
 
     </article>
 
+{{ end }}
 
-    {{ partial "footer.html" . }}
-    <div id="preloader"> 
-        <div id="loader"></div>
-    </div>
-
-    <script src="{{ "/js/jquery-3.2.1.min.js" | relURL }}"></script>
-    <script src="{{ "/js/plugins.js" | relURL }}"></script>
-    <script src="{{ "/js/main.js" | relURL }}"></script>
-
-</body>
-</html>
