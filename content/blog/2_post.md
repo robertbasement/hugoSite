@@ -5,6 +5,7 @@ type: "blog"
 categories:
   - Branding
   - Design
+  - Duel
 summary: "Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Pellentesque in ipsum id orci porta dapibus."
 ---
 Your post content here...

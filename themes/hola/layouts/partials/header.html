@@ -1,6 +1,8 @@
     <!-- header
     ================================================== -->
-    <header class="s-header">
+    
+    
+    <!-- <header class="s-header">
 
         <div class="header-logo">
             <a class="site-logo" href={{ .Permalink }}><img src="images/logo.png" alt="Homepage"></a>
@@ -18,4 +20,25 @@
 
         <a class="header-menu-toggle" href="#0"><span>Menu</span></a>
 
-    </header> <!-- end s-header -->
+    </header>
+     -->
+    
+     <header class="s-header">
+        <div class="header-logo">
+            <a class="site-logo" href="{{ "/" | relURL }}"><img src="{{ "/images/logo.png" | relURL }}" alt="Homepage"></a>
+        </div>
+
+        <nav class="header-nav-wrap">
+            <ul class="header-nav">
+                <li><a href="{{ "/" | relURL }}#home" title="home">Home</a></li>
+                <li><a href="{{ "/" | relURL }}#about" title="about">About</a></li>
+                <li><a href="{{ "/" | relURL }}#works" title="works">Works</a></li>
+                <li><a href="{{ "/" | relURL }}#blog" title="works">Blog Section</a></li>
+                <li class="current"><a href="{{ "/blog/" | relURL }}" title="blog">Blog</a></li>
+                <!-- <li><a href="{{ "/" | relURL }}#contact" title="contact">Contact</a></li> -->
+            </ul>
+        </nav>
+
+        <a class="header-menu-toggle" href="#0"><span>Menu</span></a>
+    </header>
+    <!-- end s-header -->

@@ -22,5 +22,12 @@
       <guid>http://localhost:1313/hugoSite/categories/design/</guid>
       <description></description>
     </item>
+    <item>
+      <title>Duel</title>
+      <link>http://localhost:1313/hugoSite/categories/duel/</link>
+      <pubDate>Sat, 16 Sep 2017 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/hugoSite/categories/duel/</guid>
+      <description></description>
+    </item>
   </channel>
 </rss>

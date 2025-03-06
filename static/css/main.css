@@ -4141,3 +4141,61 @@ article.blog-single .blog-content {
         display: none;
     }
 }
+
+
+
+
+/** 
+ * Sidebar - under blog index
+ * ---------
+
+ *
+ * --------------------------------------------------------------------- */
+
+/* Sidebar - Initially Hidden */
+.sidebar {
+    position: fixed;
+    right: -280px;  /* Move sidebar offscreen */
+    top: 0;
+    width: 250px;
+    height: 100%;
+    background: #f8f9fa;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+    transition: right 0.3s ease-in-out;
+    padding: 20px;
+    z-index: 1000;
+    overflow-y: auto;
+}
+
+/* Sidebar when toggled */
+.sidebar.active {
+    right: 0; /* Moves sidebar into view */
+}
+
+/* Sidebar Close Button */
+.sidebar .close-sidebar {
+    font-size: 20px;
+    cursor: pointer;
+    display: block;
+    text-align: right;
+    padding-bottom: 10px;
+}
+
+/* Toggle Button */
+.toggle-sidebar-btn {
+    position: fixed;
+    bottom: 50px;  /* Moves it lower */
+    right: 20px;    /* Keeps it aligned to the right */
+    background: #000000; /* Adjust color */
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    z-index: 1100;
+}
+
+.toggle-sidebar-btn:hover {
+    background: hsl(206, 19%, 61%); /* Darker shade for hover */
+}

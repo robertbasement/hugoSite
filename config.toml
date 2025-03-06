@@ -11,4 +11,8 @@ relativeURLs = true
 [permalinks]
 blog = "/blog/:filename/"
 
+[taxonomies]
+  category = "categories"
+  tag = "tags"
+
 

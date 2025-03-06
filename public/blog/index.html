@@ -18,9 +18,20 @@
 </head>
 
 <body id="top">
+    <script>
+        function toggleSidebar() {
+            var sidebar = document.getElementById("sidebar");
+            sidebar.classList.toggle("active");
+        }
+        </script>
 
     
-    <header class="s-header">
+        
+    
+    
+    
+    
+     <header class="s-header">
         <div class="header-logo">
             <a class="site-logo" href="../"><img src="../images/logo.png" alt="Homepage"></a>
         </div>
@@ -30,14 +41,15 @@
                 <li><a href="../#home" title="home">Home</a></li>
                 <li><a href="../#about" title="about">About</a></li>
                 <li><a href="../#works" title="works">Works</a></li>
+                <li><a href="../#blog" title="works">Blog Section</a></li>
                 <li class="current"><a href="../blog/" title="blog">Blog</a></li>
-                <li><a href="../#contact" title="contact">Contact</a></li>
+                
             </ul>
         </nav>
 
         <a class="header-menu-toggle" href="#0"><span>Menu</span></a>
     </header>
-
+    
     
     
     <section class="page-header page-hero" style="background-image: url('/hugoSite/images/blog/blog-bg-01.jpg')">
@@ -52,7 +64,11 @@
     
     <section class="blog-content-wrap">
         <div class="row blog-content">
-            <div class="col-full">
+            <button class="toggle-sidebar-btn" onclick="toggleSidebar()">☰ Categories</button>
+
+            
+            <div class="col-three-quarters">
+
                 <div class="blog-list block-1-2 block-tab-full">
                     
 
@@ -117,6 +133,39 @@
                     
                 </div>
             </div>
+
+
+            
+            <div class="col-one-quarter">
+                
+<aside class="sidebar" id="sidebar">
+    <span class="close-sidebar" onclick="toggleSidebar()">✖</span>
+    <h3>Categories</h3>
+    <ul>
+        
+            <li>
+                <a href="../categories/branding">
+                    branding (5)
+                </a>
+            </li>
+        
+            <li>
+                <a href="../categories/design">
+                    design (5)
+                </a>
+            </li>
+        
+            <li>
+                <a href="../categories/duel">
+                    duel (1)
+                </a>
+            </li>
+        
+    </ul>
+</aside>
+
+            </div>
+
         </div>
         <div class="row blog-entries-nav">
             <div class="col-full">
@@ -129,27 +178,65 @@
     </section>
 
     
+     
     <footer>
         <div class="row">
             <div class="col-full">
+
                 <div class="footer-logo">
                     <a class="footer-site-logo" href="../"><img src="../images/logo.png" alt="Homepage"></a>
                 </div>
+
                 <ul class="footer-social">
-                    <li><a href="#0"><i class="im im-facebook"></i><span>Facebook</span></a></li>
-                    <li><a href="#0"><i class="im im-twitter"></i><span>Twitter</span></a></li>
-                    <li><a href="#0"><i class="im im-instagram"></i><span>Instagram</span></a></li>
-                    <li><a href="#0"><i class="im im-behance"></i><span>Behance</span></a></li>
-                    <li><a href="#0"><i class="im im-pinterest"></i><span>Pinterest</span></a></li>
+                    <li><a href="#0">
+                        <i class="im im-facebook" aria-hidden="true"></i>
+                        <span>Facebook</span>
+                    </a></li>
+                    <li><a href="#0">
+                        <i class="im im-twitter" aria-hidden="true"></i>
+                        <span>Twitter</span>
+                    </a></li>
+                    <li><a href="#0">
+                        <i class="im im-instagram" aria-hidden="true"></i>
+                        <span>Instagram</span>
+                    </a></li>
+                    <li><a href="#0">
+                        <i class="im im-behance" aria-hidden="true"></i>
+                        <span>Behance</span>
+                    </a></li>
+                    <li><a href="#0">
+                        <i class="im im-pinterest" aria-hidden="true"></i>
+                        <span>Pinterest</span>
+                    </a></li>
                 </ul>
+                    
             </div>
         </div>
-    </footer>
+
+        <div class="row footer-bottom">
+
+            <div class="col-twelve">
+                <div class="copyright">
+                    <span>© Copyright Hola 2017</span> 
+                    <span>Design by <a href="https://www.styleshout.com/">styleshout</a></span>	
+                </div>
+
+                <div class="go-top">
+                <a class="smoothscroll" title="Back to Top" href="#top"><i class="im im-arrow-up" aria-hidden="true"></i></a>
+                </div>
+            </div>
+
+        </div> 
+
+    </footer> 
+
 
     <div id="preloader">
         <div id="loader"></div>
     </div>
 
+
+        
     <script src="js/jquery-3.2.1.min.js"></script>
     <script src="js/plugins.js"></script>
     <script src="js/main.js"></script>

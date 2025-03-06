@@ -18,28 +18,17 @@
 </head>
 
 <body id="top">
+    <script>
+        function toggleSidebar() {
+            var sidebar = document.getElementById("sidebar");
+            sidebar.classList.toggle("active");
+        }
+        </script>
 
     <!-- Header -->
-    <header class="s-header">
-        <div class="header-logo">
-            <a class="site-logo" href="{{ "/" | relURL }}"><img src="{{ "/images/logo.png" | relURL }}" alt="Homepage"></a>
-        </div>
-
-        <nav class="header-nav-wrap">
-            <ul class="header-nav">
-                <li><a href="{{ "/" | relURL }}#home" title="home">Home</a></li>
-                <li><a href="{{ "/" | relURL }}#about" title="about">About</a></li>
-                <li><a href="{{ "/" | relURL }}#works" title="works">Works</a></li>
-                <li class="current"><a href="{{ "/blog/" | relURL }}" title="blog">Blog</a></li>
-                <li><a href="{{ "/" | relURL }}#contact" title="contact">Contact</a></li>
-            </ul>
-        </nav>
-
-        <a class="header-menu-toggle" href="#0"><span>Menu</span></a>
-    </header>
-
+    {{ partial "header.html" . }}
+    
     <!-- Page Header -->
-    <!-- <section class="page-header page-hero" style="background-image:url({{ "images/blog/blog-bg-01.jpg" }})"> -->
     <section class="page-header page-hero" style="background-image: url('{{ "images/blog/blog-bg-01.jpg" | relURL }}')">
 
         <div class="row page-header__content">
@@ -52,7 +41,11 @@
     <!-- Blog Posts -->
     <section class="blog-content-wrap">
         <div class="row blog-content">
-            <div class="col-full">
+            <button class="toggle-sidebar-btn" onclick="toggleSidebar()">☰ Categories</button>
+
+            <!-- <div class="col-full"> -->
+            <div class="col-three-quarters">
+
                 <div class="blog-list block-1-2 block-tab-full">
                     {{ range .Pages }}
 
@@ -71,6 +64,13 @@
                     {{ end }}
                 </div>
             </div>
+
+
+            <!-- Sidebar (Categories) -->
+            <div class="col-one-quarter">
+                {{ partial "sidebar.html" . }}
+            </div>
+
         </div>
         <div class="row blog-entries-nav">
             <div class="col-full">
@@ -91,27 +91,15 @@
     </section>
 
     <!-- Footer -->
-    <footer>
-        <div class="row">
-            <div class="col-full">
-                <div class="footer-logo">
-                    <a class="footer-site-logo" href="{{ "/" | relURL }}"><img src="{{ "/images/logo.png" | relURL }}" alt="Homepage"></a>
-                </div>
-                <ul class="footer-social">
-                    <li><a href="#0"><i class="im im-facebook"></i><span>Facebook</span></a></li>
-                    <li><a href="#0"><i class="im im-twitter"></i><span>Twitter</span></a></li>
-                    <li><a href="#0"><i class="im im-instagram"></i><span>Instagram</span></a></li>
-                    <li><a href="#0"><i class="im im-behance"></i><span>Behance</span></a></li>
-                    <li><a href="#0"><i class="im im-pinterest"></i><span>Pinterest</span></a></li>
-                </ul>
-            </div>
-        </div>
-    </footer>
+    {{ partial "footer.html" . }}
+
 
     <div id="preloader">
         <div id="loader"></div>
     </div>
 
+
+        
     <script src="js/jquery-3.2.1.min.js"></script>
     <script src="js/plugins.js"></script>
     <script src="js/main.js"></script>
