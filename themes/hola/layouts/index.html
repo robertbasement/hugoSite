@@ -73,7 +73,7 @@
             </div>
         </div>
 
-        <div class="row about-content">
+        <!-- <div class="row about-content">
 
             <div class="col-six tab-full left">
                 <h3>Howdy!</h3>
@@ -83,9 +83,9 @@
                 <p>
                 Lorem ipsum Nisi officia Duis irure voluptate dolor commodo pariatur occaecat aliquip adipisicing voluptate Ut in qui ea sint occaecat in commodo in in in incididunt ut sunt in Ut Duis in ut ex qui anim cupidatat cupidatat ex in non dolore labore ea amet cillum ea qui dolor nisi sed velit mollit exercitation ex fugiat labore in deserunt culpa laborum culpa anim dolore laboris amet irure mollit proident velit fugiat aute ea elit magna consequat qui officia quis elit Duis dolor esse cupidatat tempor proident voluptate aliqua ex cupidatat do eiusmod veniam irure laborum ut magna nostrud dolore ullamco commodo elit sit magna aliqua laborum veniam officia dolor.	
                 </p>
-            </div>
+            </div> -->
 
-            <div class="col-six tab-full right">
+            <!-- <div class="col-six tab-full right">
                 <h3>I've Got Some skills.</h3>
 
                 <ul class="skill-bars">
@@ -114,7 +114,7 @@
                     <strong>Angular JS</strong>
                     </li>   
                 </ul>
-            </div>
+            </div> -->
 
         </div> <!-- end about-content -->
 
@@ -200,7 +200,8 @@
     </section> <!-- end about -->
     
 
-    <!-- works 用hugo方式寫成loop 會在content/portfoilo中找到所有projects並列進來
+    <!--  用hugo方式寫成loop content中所有sub folder (hugo 將其視為每一個section) 並設定為preject link
+      以後在上傳資料時 就可以在 content 底下新增其他project 
     ================================================== -->
     <section id="works" class="s-works target-section">
 
@@ -209,26 +210,50 @@
                 <h3>Portfolio</h3>
                 <h1>See My Latest Projects.</h1>
                 
-                <p class="lead">Lorem ipsum Dolor adipisicing nostrud et aute Excepteur amet commodo ea dolore irure esse Duis nulla sint fugiat cillum ullamco proident aliquip quis qui voluptate dolore veniam Ut laborum non est in officia.</p>
+                <p class="lead">每一個圖片/連結  
+                    各自為完整的project</p>
             </div>
         </div>
-<!-- 
-        <h2>Debugging Portfolio Section</h2>
-        {{ range where .Site.RegularPages "Type" "portfolio" }}
-            <p>Title: {{ .Title }}</p>
-            <p>Image: {{ .Params.image }}</p>
-            <p>Category: {{ .Params.category }}</p>
-            <hr>
-        {{ end }} -->
-
-        <!-- <script>
-            console.log("{{ "js/jquery-3.2.1.min.js" | relURL }}");
-          </script>
-           -->
 
 
+           <div class="row masonry-wrap">
+            <div class="masonry">
+                {{ range .Site.Sections }}
+                    <div class="masonry__brick">
+                        <div class="item-folio">
+                            <div class="item-folio__thumb">
+                                <!-- Use the image from the section's _index.md -->
+                                <a href="{{ .RelPermalink }}" class="thumb-link" title="{{ .Title }}" data-size="1050x700">
+                                    <img src="{{ .Params.image }}" alt="{{ .Title }}">
+                                    <span class="shadow-overlay"></span>
+                                </a>
+                            </div>
+        
+                            <div class="item-folio__text">
+                                <h3 class="item-folio__title">
+                                    <a href="{{ .RelPermalink | absURL }}">{{ .Title }}</a>
+                                </h3>
+                                <p class="item-folio__cat">
+                                    {{ .Params.category }}
+                                </p>
+                            </div>
+        
+                            <!-- Set section URL as project link -->
+                            <a href="{{ .RelPermalink | absURL }}" class="item-folio__project-link" title="Project link">
+                                <i class="im im-link"></i>
+                            </a>
+        
+                            <div class="item-folio__caption">
+                                <p>{{ .Summary | default "Explore projects in this category." }}</p>
+                            </div>
+                        </div> <!-- end item-folio -->
+                    </div> <!-- end masonry__brick -->
+                {{ end }} <!-- end .Site.Sections loop -->
+            </div>
+        </div><!-- end masonry -->
+        
 
-        <div class="row masonry-wrap">
+<!--         <div class="row masonry-wrap">
             <div class="masonry">
                 {{ range where .Site.RegularPages "Type" "portfolio" }}
 
@@ -258,12 +283,12 @@
                         <div class="item-folio__caption">
                             <p>Vero molestiae sed aut natus excepturi. Et tempora numquam. Temporibus iusto quo.Unde dolorem corrupti neque nisi.</p>
                         </div>
-                    </div> <!-- end item-folio -->
-                </div> <!-- end masonry__brick -->
+                    </div> 
+                </div> 
                 {{ end }}
 
             </div>
-        </div><!-- end masonry -->
+        </div> -->
     
        
     </section> 
@@ -281,9 +306,7 @@
             <div class="col-full">
                 <h3>Journal</h3>
                 <h1>Latest From The Blog.</h1>
-                <p class="lead">Lorem ipsum Dolor adipisicing nostrud et aute. 
-                    Excepteur amet commodo ea dolore irure esse Duis nulla sint fugiat cillum 
-                    ullamco proident aliquip quis qui voluptate dolore veniam Ut laborum non est in officia.</p>
+                <p class="lead">記錄一些發散的想法</p>
                 <h2> <a href="{{ site.BaseURL }}blog/">Go to Blog Homepage</a>
                 </h2>
                 <p>Permalink: {{ .Permalink }}</p>

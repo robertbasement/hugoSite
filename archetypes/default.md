@@ -5,13 +5,12 @@ title = '{{ replace .File.ContentBaseName "-" " " | title }}'
 +++
 
 ---
-title: "About Me"
-category: "Web Design"
-type: "portfolio"
-image: "images/testimonial-bg.jpg"
-image2x: "images/portfolio/lighthouse@2x.jpg"
-gallery: "images/portfolio/gallery/g-lighthouse.jpg"
-project_link: "https://www.behance.net/"
-caption: "Vero molestiae sed aut natus excepturi. Et tempora numquam. Temporibus iusto quo.Unde dolorem corrupti neque nisi."
-type : "projects"
+title: "9 tickers dive in"
+date: 2025-02-16
+author: "Robert Hsu"
+type: "industry_project"
+categories:
+  - Branding
+  - Design
+summary: "Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Pellentesque in ipsum id orci porta dapibus."
 ---
