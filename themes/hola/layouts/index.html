@@ -3,7 +3,7 @@
 
 <!-- home
    ================================================== -->
-   <section id="home" class="s-home page-hero target-section" data-parallax="scroll" data-image-src="{{ "images/hero-bg.jpg" | absURL | safeURL}}"  data-natural-width=3000 data-natural-height=2000 data-position-y=center>
+   <section id="home" class="s-home page-hero target-section" data-parallax="scroll" data-image-src="{{ "images/rb_bg.JPEG" | absURL | safeURL}}"  data-natural-width=3000 data-natural-height=2000 data-position-y=center>
 
         <div class="overlay"></div>
         <div class="shadow-overlay"></div>
@@ -15,9 +15,10 @@
                 <h3>Hello There</h3>
 
                 <h1>
-                    I am Jonathan Doe. <br>
-                    I am a graphic & UI/UX <br>
-                    designer based in Somewhere.
+                    I am Robert Hsu. <br>
+                    a data scientist
+                    & economic researcher
+                    based in Taipei <br>
                 </h1>
 
                 <div class="home-content__buttons">
@@ -312,13 +313,17 @@
                 <p>Permalink: {{ .Permalink }}</p>
                 <p>Blog hyper "{{ .RelPermalink }}"</p>
                 <p>Blog hyper 2 "{{ .RelPermalink | absURL }}"</p>
-
                 <p>Blog hyper 2 "{{ "/css/base.css" | absURL }}"</p>
 
                   
 
                 <p>Slug: {{ .Slug }}</p>
                 <p>Title: {{ .Title }}</p>
+
+                {{ range .Site.Sections }}
+                <p>Permalink: {{ .Permalink }}</p>
+                <p>Blog hyper "{{ .RelPermalink }}"</p>
+                {{ end }}
             </div>
         </div>
     
@@ -326,9 +331,8 @@
             <div class="col-full">
                 <div class="blog-list block-1-2 block-tab-full">
                     <!-- Loop through the blog posts -->
-                    {{ range first 4 .Site.RegularPages }}
-                        <!-- Check if the page is in the blog section -->
-                        {{ if in .Section "blog" }}
+                    {{ range first 4 (where .Site.RegularPages "Section" "blog") }}
+
                             <article class="col-block">
                                 <div class="blog-date">
                                     <a href="{{ .RelPermalink | absURL }}">{{ .Date.Format "Jan 02, 2006" }}</a>
@@ -344,7 +348,6 @@
                                 </div>
                             </article>
                         {{ end }}
-                    {{ end }}
                 </div> <!-- end blog-list -->
             </div> <!-- end col-full -->
         </div> <!-- end blog-content -->
