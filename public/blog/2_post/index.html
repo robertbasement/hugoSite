@@ -71,14 +71,14 @@
                 <article class="col-full">
                     <div class="page-header__info">
                         <div class="page-header__cat">
-                            <a href="../../categories">Branding</a><a href="../../categories">Design</a><a href="../../categories">Duel</a>
+                            <a href="../../categories">Web Design</a>
                         </div>
                     </div>
                     <h1 class="page-header__title">
-                        2-The 10 Golden Rules of Clean Simple Design
+                        Stylesheet &#43; Hugo w/ chatgpt
                     </h1>
                     <ul class="page-header__meta">
-                        <li class="date">September 16, 2017</li>
+                        <li class="date">March 10, 2025</li>
                         <li class="author">
                             By <span></span>
                         </li>
@@ -89,7 +89,64 @@
 
         <div class="row blog-content">
             <div class="col-full blog-content__main">
-                <p>Your post content here&hellip;</p>
+                <h1 id="stylesheet--hugo-w-chatgpt">Stylesheet + Hugo w/ chatgpt</h1>
+<p>正如標題所述<br>
+如何將兩者做結合</p>
+<h2 id="動機">動機</h2>
+<p>想做自己的blog並以靜態網頁的方式部署在github page上，Hugo因為社群大所以採用，但是Hugo themes裡面的設計我並不喜歡<br>
+我希望是有profile 結合 Blog的設計</p>
+<h2 id="基本set-up">基本Set up</h2>
+<p>follow hugo 官方 setup &amp; 在stylesheet 上找到順眼的模板</p>
+<h2 id="理解hugo拆分">理解hugo拆分</h2>
+<p>將stylesheet 全部hardcode的東西做拆分<br>
+並放在layouts下方<br>
+會重複運用的部分 -&gt; header, footer 等 抓出來丟在 layouts/partials
+主頁 layouts/index.html
+其他基礎架構(這與hugo blog設計有關聯)丟在 layouts/_defaults</p>
+<p>故你的baseof.html</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">body</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;top&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>    {{ partial &#34;header.html&#34; . }}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">main</span>&gt;
+</span></span><span style="display:flex;"><span>        {{ block &#34;main&#34; . }}{{ end }}
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">main</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    {{ partial &#34;footer.html&#34; . }}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">body</span>&gt;
+</span></span></code></pre></div><p>你就可以將重複利用的 header.html, footer.html 拆分出去<br>
+而main則可以依據需求去客製化</p>
+<h2 id="理解hugo重複套用template的邏輯">理解hugo重複套用template的邏輯</h2>
+<p>Hugo本質就是快速建置blog的架構<br>
+在content底下每一個folder(你可以想像成每一個主題) 會被視為一個section<br>
+你不需要為每一個主題全部從頭打造blog樣式<br>
+Hugo 會有一套底層邏輯去找尋對應的網頁模版<br>
+而這個網頁模版就是來自layouts底下做組合的</p>
+<p>舉例 :
+你想在blog中創一個project folder
+<code>content/first_project</code>
+並在裡面有與這個project有關的post<br>
+<code>content/first_project/1_post.md, ontent/first_project/2_post.md, etc...</code></p>
+<p>這些<code>1_post.md, 2_post.md</code> Hugo 會依據邏輯去找查合適的模板</p>
+<p><img src="../../images/blog/Stylesheet_Hugo_gpt/gpt_hugoTemplate1.png" alt="jpg"></p>
+<p><img src="../../images/blog/Stylesheet_Hugo_gpt/gpt_hugoTemplate2.png" alt="jpg"></p>
+<p>所以你在layouts/_defaults 下的 <code>baseof.html, list.html, single.html</code> 是當你沒有特別指定template的時候hugo會自己去找的<br>
+但若是你對這個project的設計想要客製化的<br>
+你可以在layouts底下創一個與你project相同名稱的folder<br>
+並寫出客製化的<code>baseof.html, list.html, single.html</code> 在該folder下</p>
+<h2 id="善用loop">善用loop</h2>
+<p>Hugo利用查找template的方式使你可以重複運用這些主題，大幅減少重複無意義的複製貼上<br>
+在首頁中，也會希望是動態更新<br>
+此時像stylesheet預設hardcoding的方式肯定不可行<br>
+善用hugo 內建的 Loop去查找對應的<code>section, pages, etc...</code> 並展示在index上</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>   {{ range first 4 (where .Site.RegularPages &#34;Section&#34; &#34;blog&#34;) }}
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">p</span>&gt;{{ .Title }} - {{ .Summary }}&lt;/<span style="color:#f92672">p</span>&gt;
+</span></span><span style="display:flex;"><span>  {{ end }}
+</span></span></code></pre></div><p>hugo就會查找 全部<code>.Site.RegularPages</code> 也就是所有hugo template會套給single.html的md file<br>
+之後因為 <code>where</code>這個判斷式<br>
+將single.html的md file 限縮在 content/blog這個section底下<br>
+最後<code>range first 4</code> 是我希望index 上只顯示 最新4個，只有點進blog 區才出現全部的blog post<br>
+而 <code>&lt;p&gt;{{ .Title }} - {{ .Summary }}&lt;/p&gt;</code> 則是會lookup 每一個md file上面的header</p>
 
                 
 

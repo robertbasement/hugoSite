@@ -2,13 +2,25 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>http://localhost:1313/hugoSite/blog/</loc>
+    <lastmod>2025-03-10T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/hugoSite/categories/</loc>
+    <lastmod>2025-03-10T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/hugoSite/blog/2_post/</loc>
+    <lastmod>2025-03-10T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/hugoSite/categories/web-design/</loc>
+    <lastmod>2025-03-10T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/hugoSite/</loc>
+    <lastmod>2025-03-10T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>http://localhost:1313/hugoSite/industry_project/1_post/</loc>
     <lastmod>2025-02-16T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/hugoSite/categories/branding/</loc>
-    <lastmod>2025-02-16T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/hugoSite/categories/</loc>
     <lastmod>2025-02-16T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/hugoSite/categories/design/</loc>
@@ -20,12 +32,6 @@
     <loc>http://localhost:1313/hugoSite/industry_project/</loc>
     <lastmod>2025-02-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/hugoSite/</loc>
-    <lastmod>2025-02-16T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/hugoSite/blog/2_post/</loc>
-    <lastmod>2017-09-16T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>http://localhost:1313/hugoSite/blog/3_post/</loc>
     <lastmod>2017-09-16T00:00:00+00:00</lastmod>
   </url><url>
@@ -33,12 +39,6 @@
     <lastmod>2017-09-16T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/hugoSite/blog/5_post/</loc>
-    <lastmod>2017-09-16T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/hugoSite/blog/</loc>
-    <lastmod>2017-09-16T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/hugoSite/categories/duel/</loc>
     <lastmod>2017-09-16T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/hugoSite/blog/first_post/</loc>

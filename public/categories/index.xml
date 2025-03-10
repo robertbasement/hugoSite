@@ -6,8 +6,15 @@
     <description>Recent content in Categories on </description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 16 Feb 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 10 Mar 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/hugoSite/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Web Design</title>
+      <link>http://localhost:1313/hugoSite/categories/web-design/</link>
+      <pubDate>Mon, 10 Mar 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/hugoSite/categories/web-design/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Branding</title>
       <link>http://localhost:1313/hugoSite/categories/branding/</link>
@@ -20,13 +27,6 @@
       <link>http://localhost:1313/hugoSite/categories/design/</link>
       <pubDate>Sun, 16 Feb 2025 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/hugoSite/categories/design/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Duel</title>
-      <link>http://localhost:1313/hugoSite/categories/duel/</link>
-      <pubDate>Sat, 16 Sep 2017 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/hugoSite/categories/duel/</guid>
       <description></description>
     </item>
   </channel>

@@ -1,6 +1,6 @@
 ---
 title: "Portfolio"
 type: "portfolio"
-image: "images/portfolio/beetle.jpg"
+image: "images/portfolio/beetle@2x.jpg" 
 ---
 
