@@ -961,17 +961,17 @@ a.pswp__share--download:hover {
 } */
 
 .prettyprint {
-    background: #f4f4f4; /* Lighter background for better readability */
+    background: #393939; /* Lighter background for better readability */
     font-family: Menlo, 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', Monaco, Consolas, monospace;
     font-size: 14px; /* Slightly bigger font size */
     line-height: 1.6; /* Improve line spacing */
-    border-radius: 5px; /* Optional: slightly rounded corners */
-    padding: 10px; /* Optional: padding for better spacing */
+    border-radius: 3px; /* Optional: slightly rounded corners */
+    padding: 3px; /* Optional: padding for better spacing */
     border: none; /* Remove border */
 }
 
 .pln {
-    color: #333333;
+    color: #171515;
 }
 
 @media screen {
@@ -979,7 +979,7 @@ a.pswp__share--download:hover {
         color: #dd1144;
     }
     .kwd {
-        color: #333333;
+        color: #0707b4;
     }
     .com {
         color: #999988;
@@ -991,7 +991,7 @@ a.pswp__share--download:hover {
         color: #445588;
     }
     .pun {
-        color: #333333;
+        color: #171515;
     }
     .opn {
         color: #333333;
@@ -1074,3 +1074,6 @@ li.L0, li.L1, li.L2, li.L3, li.L4, li.L5, li.L6, li.L7, li.L8, li.L9 {
 li.L1, li.L3, li.L5, li.L7, li.L9 {
     /* */
 }
+
+
+

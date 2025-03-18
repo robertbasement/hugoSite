@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+
+
+
+<html class="no-js" lang="en">
+
+
+<head><script src="/hugoSite/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=hugoSite/livereload" data-no-instant defer></script>
+
+    
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    
+
+    <link rel="stylesheet" href="../../css/base.css">
+    <link rel="stylesheet" href="../../css/vendor.css">
+    <link rel="stylesheet" href="../../css/main.css">
+
+
+    
+    
+
+    <script src="../../js/modernizr.js"></script>
+    <script src="../../js/pace.min.js"></script>
+    
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+</head>
+
+<body id="top">
+        
+    
+    
+    
+    
+     <header class="s-header">
+        <div class="header-logo">
+            <a class="site-logo" href="../../"><img src="../../images/logo.png" alt="Homepage"></a>
+        </div>
+
+        <nav class="header-nav-wrap">
+            <ul class="header-nav">
+                <li><a href="../../#home" title="home">Home</a></li>
+                <li><a href="../../#about" title="about">About</a></li>
+                <li><a href="../../#works" title="works">Works</a></li>
+                <li><a href="../../#blog" title="works">Blog Section</a></li>
+                <li class="current"><a href="../../blog/" title="blog">Blog</a></li>
+                
+            </ul>
+        </nav>
+
+        <a class="header-menu-toggle" href="#0"><span>Menu</span></a>
+    </header>
+    
+
+    <main>
+        
+
+    <article class="blog-single">
+
+        <div class="page-header page-header--single page-hero" style="background-image:url(/images/blog/blog-bg-02.jpg)">
+            <div class="row page-header__content narrow">
+                <article class="col-full">
+                    <div class="page-header__info">
+                        <div class="page-header__cat">
+                            <a href="../../categories">Backtest</a><a href="../../categories">Trading Strategy</a>
+                        </div>
+                    </div>
+                    <h1 class="page-header__title">
+                        投資組合回測 - 月/季資料resample至日資料並轉換成module要求的Dict樣式
+                    </h1>
+                    <ul class="page-header__meta">
+                        <li class="date">March 18, 2025</li>
+                        <li class="author">
+                            By <span>Robert Hsu</span>
+                        </li>
+                    </ul>
+                </article>
+            </div>
+        </div>
+
+        <div class="row blog-content">
+            <div class="col-full blog-content__main">
+                <h2 id="如何將月-季的交易策略轉化成日資料訊號並搭配我們的backtest-module做回測">如何將月, 季的交易策略，轉化成日資料訊號，並搭配我們的backtest module做回測</h2>
+<h2 id="先架起流程-在優化策略">先架起流程 在優化策略</h2>
+<ol>
+<li>建構基本策略 (我們先忽視複雜的EDA) -&gt; ex : 連續3個月 YOY &gt; 0, 買入並持有下一個月</li>
+<li>backtest 策略 (return PnL, 年化報酬 etc&hellip;)</li>
+<li>推至telegram (ticker pool中每日的表現, 組合成portfoilo的表現, 0050的表現)</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> pandas <span style="color:#66d9ef">as</span> pd
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> IPython.display <span style="color:#f92672">import</span> Markdown, display
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Ensure tabulate is installed</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># !pip install tabulate</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Disable HTML representation globally</span>
+</span></span><span style="display:flex;"><span>pd<span style="color:#f92672">.</span>set_option(<span style="color:#e6db74">&#39;display.notebook_repr_html&#39;</span>, <span style="color:#66d9ef">False</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Set reasonable display limits</span>
+</span></span><span style="display:flex;"><span>pd<span style="color:#f92672">.</span>set_option(<span style="color:#e6db74">&#39;display.max_rows&#39;</span>, <span style="color:#ae81ff">20</span>)    <span style="color:#75715e"># Max rows shown</span>
+</span></span><span style="display:flex;"><span>pd<span style="color:#f92672">.</span>set_option(<span style="color:#e6db74">&#39;display.max_columns&#39;</span>, <span style="color:#ae81ff">100</span>) <span style="color:#75715e"># Max columns shown</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Custom Markdown representation with dimensions after table</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_repr_markdown_</span>(self):
+</span></span><span style="display:flex;"><span>    rows, cols <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>get_option(<span style="color:#e6db74">&#39;display.max_rows&#39;</span>), pd<span style="color:#f92672">.</span>get_option(<span style="color:#e6db74">&#39;display.max_columns&#39;</span>)
+</span></span><span style="display:flex;"><span>    limited_df <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>iloc[:rows, :cols]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    md_table <span style="color:#f92672">=</span> limited_df<span style="color:#f92672">.</span>to_markdown(index<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    dims <span style="color:#f92672">=</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n\n</span><span style="color:#e6db74">**DataFrame: </span><span style="color:#e6db74">{</span>self<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>]<span style="color:#e6db74">}</span><span style="color:#e6db74"> rows × </span><span style="color:#e6db74">{</span>self<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">1</span>]<span style="color:#e6db74">}</span><span style="color:#e6db74"> columns**&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> len(self) <span style="color:#f92672">&gt;</span> rows <span style="color:#f92672">or</span> len(self<span style="color:#f92672">.</span>columns) <span style="color:#f92672">&gt;</span> cols:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> md_table <span style="color:#f92672">+</span> dims <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\n\n</span><span style="color:#e6db74">**... (data truncated)**&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> md_table <span style="color:#f92672">+</span> dims
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Override pandas DataFrame markdown representation globally</span>
+</span></span><span style="display:flex;"><span>pd<span style="color:#f92672">.</span>DataFrame<span style="color:#f92672">.</span>_repr_markdown_ <span style="color:#f92672">=</span> _repr_markdown_
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> configparser
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> sqlite3
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> pandas <span style="color:#66d9ef">as</span> pd
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 資料讀取</span>
+</span></span><span style="display:flex;"><span>config_path <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;../config.ini&#34;</span> 
+</span></span><span style="display:flex;"><span>config <span style="color:#f92672">=</span> configparser<span style="color:#f92672">.</span>ConfigParser()
+</span></span><span style="display:flex;"><span>config<span style="color:#f92672">.</span>read(config_path)
+</span></span></code></pre></div><pre><code>['../config.ini']
+</code></pre>
+<h3 id="讀取月營收資料爬蟲---公開資訊站">讀取月營收資料(爬蟲 -&gt; 公開資訊站)</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>conn <span style="color:#f92672">=</span> sqlite3<span style="color:#f92672">.</span>connect(config[<span style="color:#e6db74">&#39;data&#39;</span>][<span style="color:#e6db74">&#39;db_path&#39;</span>])  
+</span></span><span style="display:flex;"><span>mr_df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_sql(<span style="color:#e6db74">&#39;SELECT * FROM monthly_revenue ;&#39;</span>, conn)
+</span></span></code></pre></div><h3 id="策略一-月營收yoy連續n個月--0">策略一: 月營收YOY連續N個月 &gt; 0</h3>
+<p>買入: 月營收YOY連續N個月 &gt; 0<br>
+買出: 月營收YOY &lt; 0</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>mr_df
+</span></span></code></pre></div><table>
+  <thead>
+      <tr>
+          <th style="text-align: right">公司代號</th>
+          <th style="text-align: left">公司名稱</th>
+          <th style="text-align: right">當月營收</th>
+          <th style="text-align: right">上月營收</th>
+          <th style="text-align: right">去年當月營收</th>
+          <th style="text-align: right">上月比較增減(%)</th>
+          <th style="text-align: right">去年同月增減(%)</th>
+          <th style="text-align: right">當月累計營收</th>
+          <th style="text-align: right">去年累計營收</th>
+          <th style="text-align: right">前期比較增減(%)</th>
+          <th style="text-align: left">年月</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: right">1101</td>
+          <td style="text-align: left">台泥</td>
+          <td style="text-align: right">2054868</td>
+          <td style="text-align: right">1807880</td>
+          <td style="text-align: right">1601454</td>
+          <td style="text-align: right">13.66</td>
+          <td style="text-align: right">28.31</td>
+          <td style="text-align: right">2054868</td>
+          <td style="text-align: right">1601454</td>
+          <td style="text-align: right">28.31</td>
+          <td style="text-align: left">2010-01</td>
+      </tr>
+      <tr>
+          <td style="text-align: right">8921</td>
+          <td style="text-align: left">沈氏藝印</td>
+          <td style="text-align: right">91206</td>
+          <td style="text-align: right">111721</td>
+          <td style="text-align: right">60787</td>
+          <td style="text-align: right">-18.36</td>
+          <td style="text-align: right">50.04</td>
+          <td style="text-align: right">91206</td>
+          <td style="text-align: right">60787</td>
+          <td style="text-align: right">50.04</td>
+          <td style="text-align: left">2010-01</td>
+      </tr>
+      <tr>
+          <td style="text-align: right">4702</td>
+          <td style="text-align: left">中美實</td>
+          <td style="text-align: right">37391</td>
+          <td style="text-align: right">37578</td>
+          <td style="text-align: right">24666</td>
+          <td style="text-align: right">-0.49</td>
+          <td style="text-align: right">51.58</td>
+          <td style="text-align: right">37391</td>
+          <td style="text-align: right">24666</td>
+          <td style="text-align: right">51.58</td>
+          <td style="text-align: left">2010-01</td>
+      </tr>
+      <tr>
+          <td style="text-align: right">6182</td>
+          <td style="text-align: left">合晶</td>
+          <td style="text-align: right">300341</td>
+          <td style="text-align: right">278700</td>
+          <td style="text-align: right">211959</td>
+          <td style="text-align: right">7.76</td>
+          <td style="text-align: right">41.69</td>
+          <td style="text-align: right">300341</td>
+          <td style="text-align: right">211959</td>
+          <td style="text-align: right">41.69</td>
+          <td style="text-align: left">2010-01</td>
+      </tr>
+      <tr>
+          <td style="text-align: right">1742</td>
+          <td style="text-align: left">台蠟</td>
+          <td style="text-align: right">145540</td>
+          <td style="text-align: right">124851</td>
+          <td style="text-align: right">19262</td>
+          <td style="text-align: right">16.57</td>
+          <td style="text-align: right">655.58</td>
+          <td style="text-align: right">145540</td>
+          <td style="text-align: right">19262</td>
+          <td style="text-align: right">655.58</td>
+          <td style="text-align: left">2010-01</td>
+      </tr>
+      <tr>
+          <td style="text-align: right">6198</td>
+          <td style="text-align: left">凌泰科技</td>
+          <td style="text-align: right">9595</td>
+          <td style="text-align: right">6935</td>
+          <td style="text-align: right">7648</td>
+          <td style="text-align: right">38.35</td>
+          <td style="text-align: right">25.45</td>
+          <td style="text-align: right">9595</td>
+          <td style="text-align: right">7648</td>
+          <td style="text-align: right">25.45</td>
+          <td style="text-align: left">2010-01</td>
+      </tr>
+      <tr>
+          <td style="text-align: right">9949</td>
+          <td style="text-align: left">琉園</td>
+          <td style="text-align: right">29370</td>
+          <td style="text-align: right">34924</td>
+          <td style="text-align: right">25381</td>
+          <td style="text-align: right">-15.9</td>
+          <td style="text-align: right">15.71</td>
+          <td style="text-align: right">29370</td>
+          <td style="text-align: right">25381</td>
+          <td style="text-align: right">15.71</td>
+          <td style="text-align: left">2010-01</td>
+      </tr>
+      <tr>
+          <td style="text-align: right">8024</td>
+          <td style="text-align: left">佑華</td>
+          <td style="text-align: right">52640</td>
+          <td style="text-align: right">68895</td>
+          <td style="text-align: right">40066</td>
+          <td style="text-align: right">-23.59</td>
+          <td style="text-align: right">31.38</td>
+          <td style="text-align: right">52640</td>
+          <td style="text-align: right">40066</td>
+          <td style="text-align: right">31.38</td>
+          <td style="text-align: left">2010-01</td>
+      </tr>
+      <tr>
+          <td style="text-align: right">8938</td>
+          <td style="text-align: left">明安</td>
+          <td style="text-align: right">1024209</td>
+          <td style="text-align: right">557135</td>
+          <td style="text-align: right">600323</td>
+          <td style="text-align: right">83.83</td>
+          <td style="text-align: right">70.6</td>
+          <td style="text-align: right">1024209</td>
+          <td style="text-align: right">600323</td>
+          <td style="text-align: right">70.6</td>
+          <td style="text-align: left">2010-01</td>
+      </tr>
+      <tr>
+          <td style="text-align: right">8937</td>
+          <td style="text-align: left">合騏工業</td>
+          <td style="text-align: right">27814</td>
+          <td style="text-align: right">30204</td>
+          <td style="text-align: right">43006</td>
+          <td style="text-align: right">-7.91</td>
+          <td style="text-align: right">-35.32</td>
+          <td style="text-align: right">27814</td>
+          <td style="text-align: right">43006</td>
+          <td style="text-align: right">-35.32</td>
+          <td style="text-align: left">2010-01</td>
+      </tr>
+      <tr>
+          <td style="text-align: right">8936</td>
+          <td style="text-align: left">國統國際</td>
+          <td style="text-align: right">183148</td>
+          <td style="text-align: right">74785</td>
+          <td style="text-align: right">47476</td>
+          <td style="text-align: right">144.89</td>
+          <td style="text-align: right">285.76</td>
+          <td style="text-align: right">183148</td>
+          <td style="text-align: right">47476</td>
+          <td style="text-align: right">285.76</td>
+          <td style="text-align: left">2010-01</td>
+      </tr>
+      <tr>
+          <td style="text-align: right">8935</td>
+          <td style="text-align: left">邦泰</td>
+          <td style="text-align: right">128493</td>
+          <td style="text-align: right">93236</td>
+          <td style="text-align: right">107677</td>
+          <td style="text-align: right">37.81</td>
+          <td style="text-align: right">19.33</td>
+          <td style="text-align: right">128493</td>
+          <td style="text-align: right">107677</td>
+          <td style="text-align: right">19.33</td>
+          <td style="text-align: left">2010-01</td>
+      </tr>
+      <tr>
+          <td style="text-align: right">8934</td>
+          <td style="text-align: left">衡平</td>
+          <td style="text-align: right">2678</td>
+          <td style="text-align: right">3679</td>
+          <td style="text-align: right">4396</td>
+          <td style="text-align: right">-27.2</td>
+          <td style="text-align: right">-39.08</td>
+          <td style="text-align: right">2678</td>
+          <td style="text-align: right">4396</td>
+          <td style="text-align: right">-39.08</td>
+          <td style="text-align: left">2010-01</td>
+      </tr>
+      <tr>
+          <td style="text-align: right">8933</td>
+          <td style="text-align: left">愛地雅</td>
+          <td style="text-align: right">297428</td>
+          <td style="text-align: right">297733</td>
+          <td style="text-align: right">297061</td>
+          <td style="text-align: right">-0.1</td>
+          <td style="text-align: right">0.12</td>
+          <td style="text-align: right">297428</td>
+          <td style="text-align: right">297061</td>
+          <td style="text-align: right">0.12</td>
+          <td style="text-align: left">2010-01</td>
+      </tr>
+      <tr>
+          <td style="text-align: right">8932</td>
+          <td style="text-align: left">宏大拉鍊</td>
+          <td style="text-align: right">47274</td>
+          <td style="text-align: right">51060</td>
+          <td style="text-align: right">29760</td>
+          <td style="text-align: right">-7.41</td>
+          <td style="text-align: right">58.85</td>
+          <td style="text-align: right">47274</td>
+          <td style="text-align: right">29760</td>
+          <td style="text-align: right">58.85</td>
+          <td style="text-align: left">2010-01</td>
+      </tr>
+      <tr>
+          <td style="text-align: right">8929</td>
+          <td style="text-align: left">富堡</td>
+          <td style="text-align: right">89771</td>
+          <td style="text-align: right">120375</td>
+          <td style="text-align: right">58471</td>
+          <td style="text-align: right">-25.42</td>
+          <td style="text-align: right">53.53</td>
+          <td style="text-align: right">89771</td>
+          <td style="text-align: right">58471</td>
+          <td style="text-align: right">53.53</td>
+          <td style="text-align: left">2010-01</td>
+      </tr>
+      <tr>
+          <td style="text-align: right">8928</td>
+          <td style="text-align: left">鉅明</td>
+          <td style="text-align: right">176435</td>
+          <td style="text-align: right">122033</td>
+          <td style="text-align: right">115891</td>
+          <td style="text-align: right">44.57</td>
+          <td style="text-align: right">52.24</td>
+          <td style="text-align: right">176435</td>
+          <td style="text-align: right">115891</td>
+          <td style="text-align: right">52.24</td>
+          <td style="text-align: left">2010-01</td>
+      </tr>
+      <tr>
+          <td style="text-align: right">8925</td>
+          <td style="text-align: left">偉盟</td>
+          <td style="text-align: right">391616</td>
+          <td style="text-align: right">286289</td>
+          <td style="text-align: right">316559</td>
+          <td style="text-align: right">36.79</td>
+          <td style="text-align: right">23.71</td>
+          <td style="text-align: right">391616</td>
+          <td style="text-align: right">316559</td>
+          <td style="text-align: right">23.71</td>
+          <td style="text-align: left">2010-01</td>
+      </tr>
+      <tr>
+          <td style="text-align: right">4703</td>
+          <td style="text-align: left">揚華</td>
+          <td style="text-align: right">40672</td>
+          <td style="text-align: right">36165</td>
+          <td style="text-align: right">30091</td>
+          <td style="text-align: right">12.46</td>
+          <td style="text-align: right">35.16</td>
+          <td style="text-align: right">40672</td>
+          <td style="text-align: right">30091</td>
+          <td style="text-align: right">35.16</td>
+          <td style="text-align: left">2010-01</td>
+      </tr>
+      <tr>
+          <td style="text-align: right">8924</td>
+          <td style="text-align: left">大田精密</td>
+          <td style="text-align: right">423322</td>
+          <td style="text-align: right">740758</td>
+          <td style="text-align: right">376273</td>
+          <td style="text-align: right">-42.85</td>
+          <td style="text-align: right">12.5</td>
+          <td style="text-align: right">423322</td>
+          <td style="text-align: right">376273</td>
+          <td style="text-align: right">12.5</td>
+          <td style="text-align: left">2010-01</td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>DataFrame: 285235 rows × 11 columns</strong></p>
+<p><strong>&hellip; (data truncated)</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">cal_acc_diff</span>(df, col, diff<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>):
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;&#39;&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    for groupby, col須為float or int
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    累積計算連續N次為正, 遇到負則歸0 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    若diff=False, 則單純比較原本column值連續正幾次
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        ex : [1, 2, 7, -3, 2] -&gt; [1, 2, 3, 0, 1]
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    若diff=True, 則比較columns.diff()連續正幾次
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        ex : [1, 2, 7, -3, 2] 先做diff() -&gt; [Nan, 1, 5, -10, 5] -&gt; [0, 1, 2, 0, 1]
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#39;&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    record_list <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>    count <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> diff:
+</span></span><span style="display:flex;"><span>        loop_col <span style="color:#f92672">=</span> df[col]<span style="color:#f92672">.</span>diff()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>        loop_col <span style="color:#f92672">=</span> df[col]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> loop_col:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> i <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>:
+</span></span><span style="display:flex;"><span>            count <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span> 
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>            count <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>        record_list<span style="color:#f92672">.</span>append(count)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> diff:
+</span></span><span style="display:flex;"><span>        df[<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;連續N期遞增_</span><span style="color:#e6db74">{</span>col<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">=</span> record_list
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>        df[<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;連續N期為正_</span><span style="color:#e6db74">{</span>col<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">=</span> record_list
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> df
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># N = 3 </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Ture -&gt; 每月YOY &gt; 前一月 統計連續次數, False -&gt; 每月YOY &gt; 0 統計連續次數</span>
+</span></span><span style="display:flex;"><span>mr_df <span style="color:#f92672">=</span> mr_df<span style="color:#f92672">.</span>groupby(<span style="color:#e6db74">&#39;公司代號&#39;</span>)<span style="color:#f92672">.</span>apply(<span style="color:#66d9ef">lambda</span> df : cal_acc_diff(df, <span style="color:#e6db74">&#39;去年同月增減(%)&#39;</span>, <span style="color:#66d9ef">True</span>))<span style="color:#f92672">.</span>reset_index(level<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, drop<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span></code></pre></div><pre><code>/var/folders/l8/m7cjxss57kbc_bplh66qpmy40000gn/T/ipykernel_33111/4084614363.py:3: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  mr_df = mr_df.groupby('公司代號').apply(lambda df : cal_acc_diff(df, '去年同月增減(%)', True)).reset_index(level=0, drop=True)
+</code></pre>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>mr_df<span style="color:#f92672">.</span>columns
+</span></span></code></pre></div><pre><code>Index(['公司代號', '公司名稱', '當月營收', '上月營收', '去年當月營收', '上月比較增減(%)', '去年同月增減(%)',
+       '當月累計營收', '去年累計營收', '前期比較增減(%)', '年月', '連續N期遞增_去年同月增減(%)'],
+      dtype='object')
+</code></pre>
+<h2 id="step-1-建構簡易策略">Step 1. 建構簡易策略</h2>
+<h3 id="簡單寫一個-連續3個月營收yoy都要增加--當月yoy--0時-signal--1的策略">簡單寫一個 連續3個月營收YOY都要增加 &amp; 當月YOY &gt; 0時, signal = 1的策略</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>mr_df[<span style="color:#e6db74">&#39;YOY_signal&#39;</span>] <span style="color:#f92672">=</span> mr_df[<span style="color:#e6db74">&#39;連續N期遞增_去年同月增減(%)&#39;</span>]<span style="color:#f92672">.</span>apply(<span style="color:#66d9ef">lambda</span> x : <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">if</span> x <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">3</span> <span style="color:#66d9ef">else</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>mr_df[<span style="color:#e6db74">&#39;YOY_positive_signal&#39;</span>] <span style="color:#f92672">=</span> mr_df[<span style="color:#e6db74">&#39;去年同月增減(%)&#39;</span>]<span style="color:#f92672">.</span>apply(<span style="color:#66d9ef">lambda</span> x : <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">if</span> x <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">else</span> <span style="color:#ae81ff">0</span>)
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 直接看看哪些公司符合</span>
+</span></span><span style="display:flex;"><span>mask1 <span style="color:#f92672">=</span> (mr_df[<span style="color:#e6db74">&#39;YOY_signal&#39;</span>]<span style="color:#f92672">==</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>mask2 <span style="color:#f92672">=</span> (mr_df[<span style="color:#e6db74">&#39;年月&#39;</span>]<span style="color:#f92672">==</span><span style="color:#e6db74">&#39;2025-01&#39;</span>)
+</span></span><span style="display:flex;"><span>mask3 <span style="color:#f92672">=</span> (mr_df[<span style="color:#e6db74">&#39;YOY_positive_signal&#39;</span>]<span style="color:#f92672">==</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>mr_tickers <span style="color:#f92672">=</span> set(mr_df<span style="color:#f92672">.</span>loc[mask1 <span style="color:#f92672">&amp;</span> mask2 <span style="color:#f92672">&amp;</span> mask3, <span style="color:#e6db74">&#39;公司代號&#39;</span>])
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>len(mr_tickers)
+</span></span></code></pre></div><pre><code>63
+</code></pre>
+<h3 id="最大的問題是---這個訊號轉換成我們backtest-module的-gap">最大的問題是 -&gt; 這個訊號轉換成我們backtest module的 gap</h3>
+<ol>
+<li>resmaple 至日資料</li>
+<li>從dataframe -&gt; dict</li>
+</ol>
+<p>最後我們進backtest的dict格式如下<br>
+{<br>
+&rsquo;trading_date&rsquo; : [tuple(&rsquo;ticker&rsquo;, ratio), tuple(&rsquo;ticker&rsquo;, ratio), etc&hellip;],<br>
+&rsquo;trading_date&rsquo; : [tuple(&rsquo;ticker&rsquo;, ratio), tuple(&rsquo;ticker&rsquo;, ratio), etc&hellip;]<br>
+}</p>
+<p>ex :<br>
+{<br>
+&lsquo;20240719&rsquo; : [tuple([&lsquo;2330&rsquo;, 0.02]), tuple([&lsquo;2454&rsquo;, 0.05]), etc&hellip;]<br>
+&lsquo;20240720&rsquo; : [tuple([&lsquo;2330&rsquo;, 0.03]), tuple([&lsquo;2454&rsquo;, 0]), etc&hellip;]<br>
+etc&hellip;<br>
+}</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>mr_df[<span style="color:#e6db74">&#39;signal&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>mr_df<span style="color:#f92672">.</span>loc[mask1 <span style="color:#f92672">&amp;</span> mask3, <span style="color:#e6db74">&#39;signal&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span></code></pre></div><h3 id="每個月符合filter的ticker數量不定為簡化實際操作在符合訊號的ticker數量--20時我們依據營收yoy排序取前20來操作">每個月符合filter的ticker數量不定，為簡化實際操作，在符合訊號的ticker數量 &gt; 20時，我們依據營收YOY排序，取前20來操作</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">select_top_20</span>(df):
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Create a copy to avoid changing the original df</span>
+</span></span><span style="display:flex;"><span>    df <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>copy()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Apply the logic month-by-month</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">process_month</span>(group):
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Check if more than 20 tickers have signal=1</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> group[<span style="color:#e6db74">&#39;signal&#39;</span>]<span style="color:#f92672">.</span>sum() <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">20</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># Rank revenue growth in descending order and pick top 20</span>
+</span></span><span style="display:flex;"><span>            top_20_idx <span style="color:#f92672">=</span> group[group[<span style="color:#e6db74">&#39;signal&#39;</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>nlargest(<span style="color:#ae81ff">20</span>, <span style="color:#e6db74">&#39;去年同月增減(%)&#39;</span>)<span style="color:#f92672">.</span>index
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># Set all signals to 0 first</span>
+</span></span><span style="display:flex;"><span>            group[<span style="color:#e6db74">&#39;signal&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># Set signal to 1 for top 20 tickers</span>
+</span></span><span style="display:flex;"><span>            group<span style="color:#f92672">.</span>loc[top_20_idx, <span style="color:#e6db74">&#39;signal&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> group
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Apply the function to each month separately</span>
+</span></span><span style="display:flex;"><span>    result <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>groupby(<span style="color:#e6db74">&#39;年月&#39;</span>, group_keys<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)<span style="color:#f92672">.</span>apply(process_month)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> result
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>mr_df <span style="color:#f92672">=</span> select_top_20(mr_df)
+</span></span></code></pre></div><pre><code>/var/folders/l8/m7cjxss57kbc_bplh66qpmy40000gn/T/ipykernel_33111/1024270045.py:18: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  result = df.groupby('年月', group_keys=False).apply(process_month)
+</code></pre>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>mr_df<span style="color:#f92672">.</span>columns
+</span></span></code></pre></div><pre><code>Index(['公司代號', '公司名稱', '當月營收', '上月營收', '去年當月營收', '上月比較增減(%)', '去年同月增減(%)',
+       '當月累計營收', '去年累計營收', '前期比較增減(%)', '年月', '連續N期遞增_去年同月增減(%)', 'YOY_signal',
+       'YOY_positive_signal', 'signal'],
+      dtype='object')
+</code></pre>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>mr_df<span style="color:#f92672">.</span>loc[mr_df[<span style="color:#e6db74">&#39;signal&#39;</span>]<span style="color:#f92672">==</span><span style="color:#ae81ff">1</span>, [<span style="color:#e6db74">&#39;年月&#39;</span>, <span style="color:#e6db74">&#39;公司代號&#39;</span>, <span style="color:#e6db74">&#39;連續N期遞增_去年同月增減(%)&#39;</span>, <span style="color:#e6db74">&#39;去年同月增減(%)&#39;</span>, <span style="color:#e6db74">&#39;signal&#39;</span>]]
+</span></span></code></pre></div><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">年月</th>
+          <th style="text-align: right">公司代號</th>
+          <th style="text-align: right">連續N期遞增_去年同月增減(%)</th>
+          <th style="text-align: right">去年同月增減(%)</th>
+          <th style="text-align: right">signal</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">2024-11</td>
+          <td style="text-align: right">1101</td>
+          <td style="text-align: right">3</td>
+          <td style="text-align: right">87.8</td>
+          <td style="text-align: right">1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2010-11</td>
+          <td style="text-align: right">1102</td>
+          <td style="text-align: right">3</td>
+          <td style="text-align: right">63.77</td>
+          <td style="text-align: right">1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2012-03</td>
+          <td style="text-align: right">1102</td>
+          <td style="text-align: right">4</td>
+          <td style="text-align: right">26.1</td>
+          <td style="text-align: right">1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2012-06</td>
+          <td style="text-align: right">1103</td>
+          <td style="text-align: right">3</td>
+          <td style="text-align: right">303.61</td>
+          <td style="text-align: right">1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2012-07</td>
+          <td style="text-align: right">1103</td>
+          <td style="text-align: right">4</td>
+          <td style="text-align: right">414.08</td>
+          <td style="text-align: right">1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2023-06</td>
+          <td style="text-align: right">1103</td>
+          <td style="text-align: right">3</td>
+          <td style="text-align: right">51.34</td>
+          <td style="text-align: right">1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2015-02</td>
+          <td style="text-align: right">1108</td>
+          <td style="text-align: right">3</td>
+          <td style="text-align: right">40.44</td>
+          <td style="text-align: right">1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2011-06</td>
+          <td style="text-align: right">1109</td>
+          <td style="text-align: right">3</td>
+          <td style="text-align: right">57.34</td>
+          <td style="text-align: right">1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2017-09</td>
+          <td style="text-align: right">1110</td>
+          <td style="text-align: right">5</td>
+          <td style="text-align: right">178.33</td>
+          <td style="text-align: right">1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2024-08</td>
+          <td style="text-align: right">1110</td>
+          <td style="text-align: right">4</td>
+          <td style="text-align: right">104.24</td>
+          <td style="text-align: right">1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2024-06</td>
+          <td style="text-align: right">1213</td>
+          <td style="text-align: right">3</td>
+          <td style="text-align: right">594.44</td>
+          <td style="text-align: right">1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2024-07</td>
+          <td style="text-align: right">1213</td>
+          <td style="text-align: right">4</td>
+          <td style="text-align: right">6686.19</td>
+          <td style="text-align: right">1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2014-11</td>
+          <td style="text-align: right">1220</td>
+          <td style="text-align: right">3</td>
+          <td style="text-align: right">68.78</td>
+          <td style="text-align: right">1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2020-04</td>
+          <td style="text-align: right">1227</td>
+          <td style="text-align: right">3</td>
+          <td style="text-align: right">67.59</td>
+          <td style="text-align: right">1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2010-12</td>
+          <td style="text-align: right">1234</td>
+          <td style="text-align: right">3</td>
+          <td style="text-align: right">67.78</td>
+          <td style="text-align: right">1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2011-01</td>
+          <td style="text-align: right">1234</td>
+          <td style="text-align: right">4</td>
+          <td style="text-align: right">85.08</td>
+          <td style="text-align: right">1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2011-10</td>
+          <td style="text-align: right">1234</td>
+          <td style="text-align: right">3</td>
+          <td style="text-align: right">52.11</td>
+          <td style="text-align: right">1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2016-01</td>
+          <td style="text-align: right">1234</td>
+          <td style="text-align: right">4</td>
+          <td style="text-align: right">58.5</td>
+          <td style="text-align: right">1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2016-10</td>
+          <td style="text-align: right">1234</td>
+          <td style="text-align: right">3</td>
+          <td style="text-align: right">82.33</td>
+          <td style="text-align: right">1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2019-12</td>
+          <td style="text-align: right">1234</td>
+          <td style="text-align: right">4</td>
+          <td style="text-align: right">97.67</td>
+          <td style="text-align: right">1</td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>DataFrame: 3575 rows × 5 columns</strong></p>
+<p><strong>&hellip; (data truncated)</strong></p>
+<h2 id="step-2-推斷公告日期-將月資料resample至日">Step 2. 推斷公告日期, 將月資料resample至日</h2>
+<h3 id="我們只有每個月的營收我們推斷他的公佈日期為下個月12號考慮遇到假日遞延的情況-12日通常能確定上個月的營收已公布">我們只有每個月的營收，我們推斷他的公佈日期為下個月12號(考慮遇到假日遞延的情況 12日通常能確定上個月的營收已公布)</h3>
+<h3 id="先將每個月轉換成下個月12號2025-12---2026-01-12-可以得到每一隻ticker在每一個日期裡-holding-是-0-or-1">先將每個月轉換成下個月12號(&lsquo;2025-12&rsquo; -&gt; &lsquo;2026-01-12&rsquo;) 可以得到每一隻ticker在每一個日期裡 holding 是 0 or 1</h3>
+<h3 id="在用這些日期做resample-就可以將signal-放大到每日">在用這些日期做resample 就可以將signal 放大到每日</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> datetime <span style="color:#f92672">import</span> datetime
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> dateutil.relativedelta <span style="color:#f92672">import</span> relativedelta
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_next_month_12th</span>(yyyy_mm: str) <span style="color:#f92672">-&gt;</span> str:
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;Given &#39;YYYY-MM&#39;, return the next month&#39;s 12th as &#39;YYYY-MM-DD&#39;.&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    date_obj <span style="color:#f92672">=</span> datetime<span style="color:#f92672">.</span>strptime(yyyy_mm, <span style="color:#e6db74">&#34;%Y-%m&#34;</span>)
+</span></span><span style="display:flex;"><span>    next_month <span style="color:#f92672">=</span> date_obj <span style="color:#f92672">+</span> relativedelta(months<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>    result_date <span style="color:#f92672">=</span> next_month<span style="color:#f92672">.</span>replace(day<span style="color:#f92672">=</span><span style="color:#ae81ff">12</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> result_date<span style="color:#f92672">.</span>strftime(<span style="color:#e6db74">&#34;%Y-%m-</span><span style="color:#e6db74">%d</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Example usage</span>
+</span></span><span style="display:flex;"><span>print(get_next_month_12th(<span style="color:#e6db74">&#34;2025-12&#34;</span>))  <span style="color:#75715e"># Output: &#34;2025-04-12&#34;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 直接用數值轉換日期 較快</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_next_month_12th</span>(yyyy_mm: str) <span style="color:#f92672">-&gt;</span> str:
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;Given &#39;YYYY-MM&#39;, return the next month&#39;s 12th as &#39;YYYY-MM-DD&#39; using fast arithmetic.&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    year, month <span style="color:#f92672">=</span> map(int, yyyy_mm<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34;-&#34;</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Increment month, handle year rollover</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> month <span style="color:#f92672">==</span> <span style="color:#ae81ff">12</span>:
+</span></span><span style="display:flex;"><span>        year <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>        month <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>        month <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Format with zero-padding for consistent output</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>year<span style="color:#e6db74">:</span><span style="color:#e6db74">04d</span><span style="color:#e6db74">}</span><span style="color:#e6db74">-</span><span style="color:#e6db74">{</span>month<span style="color:#e6db74">:</span><span style="color:#e6db74">02d</span><span style="color:#e6db74">}</span><span style="color:#e6db74">-12&#34;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>mr_df[<span style="color:#e6db74">&#39;年月&#39;</span>]<span style="color:#f92672">.</span>apply(get_next_month_12th)
+</span></span></code></pre></div><pre><code>0         2010-02-12
+2305      2010-03-12
+3625      2010-04-12
+4981      2010-05-12
+6358      2010-06-12
+             ...    
+276516    2024-11-12
+279310    2024-12-12
+281072    2025-01-12
+281802    2025-02-12
+283570    2025-03-12
+Name: 年月, Length: 285235, dtype: object
+</code></pre>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>mr_df[<span style="color:#e6db74">&#39;推斷公告日&#39;</span>] <span style="color:#f92672">=</span> mr_df[<span style="color:#e6db74">&#39;年月&#39;</span>]<span style="color:#f92672">.</span>apply(get_next_month_12th)
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>mr_df[<span style="color:#e6db74">&#39;日期_dt&#39;</span>] <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>to_datetime(mr_df[<span style="color:#e6db74">&#39;推斷公告日&#39;</span>])
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">resample_df</span>(df):
+</span></span><span style="display:flex;"><span>    df <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>reset_index()<span style="color:#f92672">.</span>set_index(<span style="color:#e6db74">&#34;日期_dt&#34;</span>)  <span style="color:#75715e"># Ensure &#39;日期&#39; is the index</span>
+</span></span><span style="display:flex;"><span>    df <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>loc[<span style="color:#f92672">~</span>df<span style="color:#f92672">.</span>index<span style="color:#f92672">.</span>duplicated()] <span style="color:#75715e"># 避免某些資料有誤報錯</span>
+</span></span><span style="display:flex;"><span>    df <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>resample(<span style="color:#e6db74">&#39;D&#39;</span>)<span style="color:#f92672">.</span>ffill() 
+</span></span><span style="display:flex;"><span>    df<span style="color:#f92672">.</span>reset_index(drop<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>, inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> df
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>mr_df<span style="color:#f92672">.</span>reset_index(drop<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>, inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>mr_df[<span style="color:#e6db74">&#39;公司代號&#39;</span>] <span style="color:#f92672">=</span> mr_df[<span style="color:#e6db74">&#39;公司代號&#39;</span>]<span style="color:#f92672">.</span>astype(str)
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 將月資料 resample至日</span>
+</span></span><span style="display:flex;"><span>resample_mr_df <span style="color:#f92672">=</span> mr_df[[<span style="color:#e6db74">&#39;日期_dt&#39;</span>, <span style="color:#e6db74">&#39;年月&#39;</span>, <span style="color:#e6db74">&#39;推斷公告日&#39;</span>, <span style="color:#e6db74">&#39;公司代號&#39;</span>, <span style="color:#e6db74">&#39;signal&#39;</span>]]<span style="color:#f92672">.</span>groupby(<span style="color:#e6db74">&#39;公司代號&#39;</span>)<span style="color:#f92672">.</span>apply(resample_df)<span style="color:#f92672">.</span>reset_index(drop<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span></code></pre></div><pre><code>/var/folders/l8/m7cjxss57kbc_bplh66qpmy40000gn/T/ipykernel_33111/2657914633.py:2: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  resample_mr_df = mr_df[['日期_dt', '年月', '推斷公告日', '公司代號', 'signal']].groupby('公司代號').apply(resample_df).reset_index(drop=True)
+</code></pre>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>resample_mr_df[(resample_mr_df[<span style="color:#e6db74">&#39;年月&#39;</span>]<span style="color:#f92672">==</span><span style="color:#e6db74">&#39;2024-11&#39;</span>) <span style="color:#f92672">&amp;</span> (resample_mr_df[<span style="color:#e6db74">&#39;公司代號&#39;</span>]<span style="color:#f92672">==</span><span style="color:#e6db74">&#39;1101&#39;</span>)]
+</span></span></code></pre></div><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">日期_dt</th>
+          <th style="text-align: right">index</th>
+          <th style="text-align: left">年月</th>
+          <th style="text-align: left">推斷公告日</th>
+          <th style="text-align: right">公司代號</th>
+          <th style="text-align: right">signal</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">2024-12-12 00:00:00</td>
+          <td style="text-align: right">178</td>
+          <td style="text-align: left">2024-11</td>
+          <td style="text-align: left">2024-12-12</td>
+          <td style="text-align: right">1101</td>
+          <td style="text-align: right">1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2024-12-13 00:00:00</td>
+          <td style="text-align: right">178</td>
+          <td style="text-align: left">2024-11</td>
+          <td style="text-align: left">2024-12-12</td>
+          <td style="text-align: right">1101</td>
+          <td style="text-align: right">1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2024-12-14 00:00:00</td>
+          <td style="text-align: right">178</td>
+          <td style="text-align: left">2024-11</td>
+          <td style="text-align: left">2024-12-12</td>
+          <td style="text-align: right">1101</td>
+          <td style="text-align: right">1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2024-12-15 00:00:00</td>
+          <td style="text-align: right">178</td>
+          <td style="text-align: left">2024-11</td>
+          <td style="text-align: left">2024-12-12</td>
+          <td style="text-align: right">1101</td>
+          <td style="text-align: right">1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2024-12-16 00:00:00</td>
+          <td style="text-align: right">178</td>
+          <td style="text-align: left">2024-11</td>
+          <td style="text-align: left">2024-12-12</td>
+          <td style="text-align: right">1101</td>
+          <td style="text-align: right">1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2024-12-17 00:00:00</td>
+          <td style="text-align: right">178</td>
+          <td style="text-align: left">2024-11</td>
+          <td style="text-align: left">2024-12-12</td>
+          <td style="text-align: right">1101</td>
+          <td style="text-align: right">1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2024-12-18 00:00:00</td>
+          <td style="text-align: right">178</td>
+          <td style="text-align: left">2024-11</td>
+          <td style="text-align: left">2024-12-12</td>
+          <td style="text-align: right">1101</td>
+          <td style="text-align: right">1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2024-12-19 00:00:00</td>
+          <td style="text-align: right">178</td>
+          <td style="text-align: left">2024-11</td>
+          <td style="text-align: left">2024-12-12</td>
+          <td style="text-align: right">1101</td>
+          <td style="text-align: right">1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2024-12-20 00:00:00</td>
+          <td style="text-align: right">178</td>
+          <td style="text-align: left">2024-11</td>
+          <td style="text-align: left">2024-12-12</td>
+          <td style="text-align: right">1101</td>
+          <td style="text-align: right">1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2024-12-21 00:00:00</td>
+          <td style="text-align: right">178</td>
+          <td style="text-align: left">2024-11</td>
+          <td style="text-align: left">2024-12-12</td>
+          <td style="text-align: right">1101</td>
+          <td style="text-align: right">1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2024-12-22 00:00:00</td>
+          <td style="text-align: right">178</td>
+          <td style="text-align: left">2024-11</td>
+          <td style="text-align: left">2024-12-12</td>
+          <td style="text-align: right">1101</td>
+          <td style="text-align: right">1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2024-12-23 00:00:00</td>
+          <td style="text-align: right">178</td>
+          <td style="text-align: left">2024-11</td>
+          <td style="text-align: left">2024-12-12</td>
+          <td style="text-align: right">1101</td>
+          <td style="text-align: right">1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2024-12-24 00:00:00</td>
+          <td style="text-align: right">178</td>
+          <td style="text-align: left">2024-11</td>
+          <td style="text-align: left">2024-12-12</td>
+          <td style="text-align: right">1101</td>
+          <td style="text-align: right">1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2024-12-25 00:00:00</td>
+          <td style="text-align: right">178</td>
+          <td style="text-align: left">2024-11</td>
+          <td style="text-align: left">2024-12-12</td>
+          <td style="text-align: right">1101</td>
+          <td style="text-align: right">1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2024-12-26 00:00:00</td>
+          <td style="text-align: right">178</td>
+          <td style="text-align: left">2024-11</td>
+          <td style="text-align: left">2024-12-12</td>
+          <td style="text-align: right">1101</td>
+          <td style="text-align: right">1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2024-12-27 00:00:00</td>
+          <td style="text-align: right">178</td>
+          <td style="text-align: left">2024-11</td>
+          <td style="text-align: left">2024-12-12</td>
+          <td style="text-align: right">1101</td>
+          <td style="text-align: right">1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2024-12-28 00:00:00</td>
+          <td style="text-align: right">178</td>
+          <td style="text-align: left">2024-11</td>
+          <td style="text-align: left">2024-12-12</td>
+          <td style="text-align: right">1101</td>
+          <td style="text-align: right">1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2024-12-29 00:00:00</td>
+          <td style="text-align: right">178</td>
+          <td style="text-align: left">2024-11</td>
+          <td style="text-align: left">2024-12-12</td>
+          <td style="text-align: right">1101</td>
+          <td style="text-align: right">1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2024-12-30 00:00:00</td>
+          <td style="text-align: right">178</td>
+          <td style="text-align: left">2024-11</td>
+          <td style="text-align: left">2024-12-12</td>
+          <td style="text-align: right">1101</td>
+          <td style="text-align: right">1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2024-12-31 00:00:00</td>
+          <td style="text-align: right">178</td>
+          <td style="text-align: left">2024-11</td>
+          <td style="text-align: left">2024-12-12</td>
+          <td style="text-align: right">1101</td>
+          <td style="text-align: right">1</td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>DataFrame: 31 rows × 6 columns</strong></p>
+<p><strong>&hellip; (data truncated)</strong></p>
+<h3 id="可以看到-2024-11-1101的signal--1">可以看到 2024-11, 1101的signal = 1</h3>
+<h3 id="設定推斷公告日後進行resample之後-在2024-12-12--2025-01-11-的signal--1-資料被trancate-只顯示top-20-rows">設定推斷公告日後進行resample之後 在2024-12-12 ~ 2025-01-11 的signal = 1 (資料被trancate 只顯示top 20 rows)</h3>
+<h2 id="step-3-將日資料-轉換成backtest-module的dict格式">Step 3. 將日資料 轉換成backtest module的dict格式</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">## 這樣同樣的日期只要轉換一次就好</span>
+</span></span><span style="display:flex;"><span>unique_datetime <span style="color:#f92672">=</span> resample_mr_df[<span style="color:#e6db74">&#39;日期_dt&#39;</span>]<span style="color:#f92672">.</span>unique()<span style="color:#f92672">.</span>tolist()
+</span></span><span style="display:flex;"><span>transform_dict <span style="color:#f92672">=</span> {}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> d <span style="color:#f92672">in</span> unique_datetime:
+</span></span><span style="display:flex;"><span>    transform_dict[d] <span style="color:#f92672">=</span> d<span style="color:#f92672">.</span>strftime(<span style="color:#e6db74">&#39;%Y%m</span><span style="color:#e6db74">%d</span><span style="color:#e6db74">&#39;</span>)
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>resample_mr_df[<span style="color:#e6db74">&#39;日期&#39;</span>] <span style="color:#f92672">=</span> resample_mr_df[<span style="color:#e6db74">&#39;日期_dt&#39;</span>]<span style="color:#f92672">.</span>map(transform_dict)
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>date_dict <span style="color:#f92672">=</span> resample_mr_df<span style="color:#f92672">.</span>groupby(<span style="color:#e6db74">&#34;日期&#34;</span>)<span style="color:#f92672">.</span>apply(<span style="color:#66d9ef">lambda</span> x: list(zip(x[<span style="color:#e6db74">&#34;公司代號&#34;</span>], x[<span style="color:#e6db74">&#34;signal&#34;</span>])))<span style="color:#f92672">.</span>to_dict()
+</span></span></code></pre></div><pre><code>/var/folders/l8/m7cjxss57kbc_bplh66qpmy40000gn/T/ipykernel_33111/2633007352.py:1: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  date_dict = resample_mr_df.groupby(&quot;日期&quot;).apply(lambda x: list(zip(x[&quot;公司代號&quot;], x[&quot;signal&quot;]))).to_dict()
+</code></pre>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 如果我們只保留singal == 1的data backtest還是正確的嗎? -&gt; 還是正確得 我們只要紀錄ticker有持有的日期</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 若是下一個交易日他不在持有名單中 會全部出清</span>
+</span></span><span style="display:flex;"><span>date_dict_ratio <span style="color:#f92672">=</span> {}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> d <span style="color:#f92672">in</span> date_dict<span style="color:#f92672">.</span>keys():
+</span></span><span style="display:flex;"><span>    month_tickers_count <span style="color:#f92672">=</span> len([data[<span style="color:#ae81ff">0</span>] <span style="color:#66d9ef">for</span> data <span style="color:#f92672">in</span> date_dict[d] <span style="color:#66d9ef">if</span> data[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]<span style="color:#f92672">==</span><span style="color:#ae81ff">1</span>])
+</span></span><span style="display:flex;"><span>    date_dict_ratio[d] <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>    tuple([data[<span style="color:#ae81ff">0</span>], <span style="color:#ae81ff">1</span> <span style="color:#f92672">/</span> month_tickers_count]) 
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> data <span style="color:#f92672">in</span> date_dict[d] <span style="color:#66d9ef">if</span> data[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span> 
+</span></span><span style="display:flex;"><span>    ]
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 可以看到 1101 在 2024-12-14中有持有 因為一次是選top 20, 故其持股比例佔投組為 5%</span>
+</span></span><span style="display:flex;"><span>date_dict_ratio[<span style="color:#e6db74">&#39;20241214&#39;</span>]
+</span></span></code></pre></div><pre><code>[('1101', 0.05),
+ ('1470', 0.05),
+ ('2211', 0.05),
+ ('2230', 0.05),
+ ('2363', 0.05),
+ ('2881', 0.05),
+ ('2891', 0.05),
+ ('2905', 0.05),
+ ('3056', 0.05),
+ ('3447', 0.05),
+ ('3563', 0.05),
+ ('4946', 0.05),
+ ('5398', 0.05),
+ ('5490', 0.05),
+ ('6142', 0.05),
+ ('6658', 0.05),
+ ('6691', 0.05),
+ ('6692', 0.05),
+ ('6877', 0.05),
+ ('8176', 0.05)]
+</code></pre>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 將dict 存成pickle 就大功告成了</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> pickle
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#39;test_YOY.pkl&#39;</span>, <span style="color:#e6db74">&#39;wb&#39;</span>) <span style="color:#66d9ef">as</span> handle:
+</span></span><span style="display:flex;"><span>        pickle<span style="color:#f92672">.</span>dump(date_dict_ratio, handle, protocol<span style="color:#f92672">=</span>pickle<span style="color:#f92672">.</span>DEFAULT_PROTOCOL)
+</span></span></code></pre></div>
+                
+
+                
+            </div>
+        </div>
+
+    </article>
+
+
+    </main>
+
+     
+    <footer>
+        <div class="row">
+            <div class="col-full">
+
+                <div class="footer-logo">
+                    <a class="footer-site-logo" href="../../"><img src="../../images/logo.png" alt="Homepage"></a>
+                </div>
+
+                <ul class="footer-social">
+                    <li><a href="#0">
+                        <i class="im im-facebook" aria-hidden="true"></i>
+                        <span>Facebook</span>
+                    </a></li>
+                    <li><a href="#0">
+                        <i class="im im-twitter" aria-hidden="true"></i>
+                        <span>Twitter</span>
+                    </a></li>
+                    <li><a href="#0">
+                        <i class="im im-instagram" aria-hidden="true"></i>
+                        <span>Instagram</span>
+                    </a></li>
+                    <li><a href="#0">
+                        <i class="im im-behance" aria-hidden="true"></i>
+                        <span>Behance</span>
+                    </a></li>
+                    <li><a href="#0">
+                        <i class="im im-pinterest" aria-hidden="true"></i>
+                        <span>Pinterest</span>
+                    </a></li>
+                </ul>
+                    
+            </div>
+        </div>
+
+        <div class="row footer-bottom">
+
+            <div class="col-twelve">
+                <div class="copyright">
+                    <span>© Copyright Hola 2017</span> 
+                    <span>Design by <a href="https://www.styleshout.com/">styleshout</a></span>	
+                </div>
+
+                <div class="go-top">
+                <a class="smoothscroll" title="Back to Top" href="#top"><i class="im im-arrow-up" aria-hidden="true"></i></a>
+                </div>
+            </div>
+
+        </div> 
+
+    </footer> 
+   
+
+
+    
+    <div aria-hidden="true" class="pswp" role="dialog" tabindex="-1">
+
+        <div class="pswp__bg"></div>
+        <div class="pswp__scroll-wrap">
+
+            <div class="pswp__container">
+                <div class="pswp__item"></div>
+                <div class="pswp__item"></div>
+                <div class="pswp__item"></div>
+            </div>
+
+            <div class="pswp__ui pswp__ui--hidden">
+                <div class="pswp__top-bar">
+                    <div class="pswp__counter"></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button> <button class="pswp__button pswp__button--share" title=
+                    "Share"></button> <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button> <button class="pswp__button pswp__button--zoom" title=
+                    "Zoom in/out"></button>
+                    <div class="pswp__preloader">
+                        <div class="pswp__preloader__icn">
+                            <div class="pswp__preloader__cut">
+                                <div class="pswp__preloader__donut"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                    <div class="pswp__share-tooltip"></div>
+                </div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button> <button class="pswp__button pswp__button--arrow--right" title=
+                "Next (arrow right)"></button>
+                <div class="pswp__caption">
+                    <div class="pswp__caption__center"></div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div id="preloader">
+        <div id="loader"></div>
+    </div>
+
+
+    
+    
+
+    <script src="../../js/jquery-3.2.1.min.js"></script>
+    <script src="../../js/plugins.js"></script>
+    <script src="../../js/main.js"></script>
+
+
+</body>
+
+</html>

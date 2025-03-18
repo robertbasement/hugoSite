@@ -75,7 +75,7 @@
                         </div>
                     </div>
                     <h1 class="page-header__title">
-                        阿張test
+                        未來的todo list
                     </h1>
                     <ul class="page-header__meta">
                         <li class="date">March 10, 2025</li>
@@ -89,8 +89,34 @@
 
         <div class="row blog-content">
             <div class="col-full blog-content__main">
-                <h3 id="嗨阿張">嗨阿張</h3>
-<p>蛋頭超肥</p>
+                <h2 id="每日基本課題">每日基本課題</h2>
+<ol>
+<li>關注的ticker pool追蹤
+(每日推出csv至telegram 計算關注ticker的DCF估值, 最新營收etc 方便我一次總覽)</li>
+<li>量化關注整體市場</li>
+</ol>
+<h2 id="各產業估值變動">各產業估值變動</h2>
+<h3 id="goal-檢視產業估值變化試圖理解資金在哪些產業做輪轉">Goal 檢視產業估值變化，試圖理解資金在哪些產業做輪轉</h3>
+<ol>
+<li>用最新四季EPS搭配股價去估算現在該公司的本益比(去除EPS &lt; 0)</li>
+<li>依據市值做產業加總</li>
+<li>得到圖表(顯示最近估值變化) &amp; 表格數據 (過去一段時間的最高/最低/avg 本益比為何)</li>
+</ol>
+<h2 id="月營收相關策略">月營收相關策略</h2>
+<h3 id="goal-希望能以交易策略持續在市場中獲利">Goal 希望能以交易策略<code>持續</code>在市場中獲利</h3>
+<p>每個月選出5隻以內做觀察 並篩出一兩隻做實際投入</p>
+<h2 id="目前狀況">目前狀況</h2>
+<p>已經建好基本的database, 網頁查找 但資料較不齊全</p>
+<p>我感覺 還是得先搞交易策略 -&gt; 定期推有梗的ticker
+(每個月選一批 並在那個月定期追蹤) &amp; (追蹤選出來的投資組合 vs 0050)</p>
+<p>先建立workflow</p>
+<ol>
+<li>fetching</li>
+<li>anaylsis(EDA)</li>
+<li>backtest (baseline model vs 0050)</li>
+<li>backtest (ML)</li>
+<li>daily report for tracking</li>
+</ol>
 
                 
 

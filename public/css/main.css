@@ -285,8 +285,8 @@ var, kbd, samp, code, pre {
 }
 
 /* 處理code 邊角黑匡 */
-pre {
-    padding: 0rem 0rem 0rem; !important 
+/* pre {
+    padding: 0rem 0rem 0rem;
     background: #F1F1F1;
     overflow-x: auto;
 }
@@ -307,7 +307,30 @@ pre > code {
     line-height: 2;
     padding: 0;
     margin: 0;
+} */
+
+/* Code blocks (```python ...) */
+pre {
+    background-color: #fffbfb !important; /* gentle gray background */
+    color: #333 !important;              /* dark text */
+    padding: 12px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    border: 1px solid #e1e1e8;
 }
+
+/* Inline code (single backtick) */
+code {
+    background-color: #ffffff !important;
+    color: #555 !important;
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+
+
+
 
 pre.prettyprint > code {
     border: none;
@@ -435,11 +458,19 @@ img.pull-left {
  * ## tables - (_document-setup.scss)  
  * ------------------------------------------------------------------- */
 
-table {
+/* table {
     border-width: 0;
     width: 100%;
     max-width: 100%;
     font-family: "librebaskerville-regular", serif;
+} */
+
+/* try gpt solution */
+table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
 }
 
 th, td {
