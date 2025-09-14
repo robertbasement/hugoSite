@@ -2,66 +2,66 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Branding on </title>
-    <link>http://localhost:1313/hugoSite/categories/branding/</link>
+    <link>https://robertbasement.github.io/hugoSite/categories/branding/</link>
     <description>Recent content in Branding on </description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 10 Mar 2025 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/hugoSite/categories/branding/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 14 Sep 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://robertbasement.github.io/hugoSite/categories/branding/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>去熊本紀錄 - 回歸blog建置</title>
+      <link>https://robertbasement.github.io/hugoSite/blog/return/</link>
+      <pubDate>Sun, 14 Sep 2025 00:00:00 +0000</pubDate>
+      <guid>https://robertbasement.github.io/hugoSite/blog/return/</guid>
+      <description>強勢回歸</description>
+    </item>
     <item>
       <title>未來的todo list</title>
-      <link>http://localhost:1313/hugoSite/blog/1_test/</link>
+      <link>https://robertbasement.github.io/hugoSite/blog/1_test/</link>
       <pubDate>Mon, 10 Mar 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/hugoSite/blog/1_test/</guid>
+      <guid>https://robertbasement.github.io/hugoSite/blog/1_test/</guid>
       <description>每日基本課題, 中長期計畫</description>
     </item>
     <item>
       <title>9 tickers dive in</title>
-      <link>http://localhost:1313/hugoSite/industry_project/1_post/</link>
+      <link>https://robertbasement.github.io/hugoSite/industry_project/1_post/</link>
       <pubDate>Sun, 16 Feb 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/hugoSite/industry_project/1_post/</guid>
+      <guid>https://robertbasement.github.io/hugoSite/industry_project/1_post/</guid>
       <description>選出來的ticker 做特化策略</description>
     </item>
     <item>
       <title>Final test</title>
-      <link>http://localhost:1313/hugoSite/industry_project/final_test/</link>
+      <link>https://robertbasement.github.io/hugoSite/industry_project/final_test/</link>
       <pubDate>Sun, 16 Feb 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/hugoSite/industry_project/final_test/</guid>
+      <guid>https://robertbasement.github.io/hugoSite/industry_project/final_test/</guid>
       <description>Last dance</description>
     </item>
     <item>
       <title>歐肥好胖</title>
-      <link>http://localhost:1313/hugoSite/oo_project/1_oo/</link>
+      <link>https://robertbasement.github.io/hugoSite/oo_project/1_oo/</link>
       <pubDate>Sun, 16 Feb 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/hugoSite/oo_project/1_oo/</guid>
+      <guid>https://robertbasement.github.io/hugoSite/oo_project/1_oo/</guid>
       <description>小胖貓</description>
     </item>
     <item>
       <title>3.The 10 Golden Rules of Clean Simple Design</title>
-      <link>http://localhost:1313/hugoSite/blog/3_post/</link>
+      <link>https://robertbasement.github.io/hugoSite/blog/3_post/</link>
       <pubDate>Sat, 16 Sep 2017 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/hugoSite/blog/3_post/</guid>
-      <description>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Pellentesque in ipsum id orci porta dapibus.</description>
-    </item>
-    <item>
-      <title>4.The 10 Golden Rules of Clean Simple Design</title>
-      <link>http://localhost:1313/hugoSite/blog/4_post/</link>
-      <pubDate>Sat, 16 Sep 2017 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/hugoSite/blog/4_post/</guid>
+      <guid>https://robertbasement.github.io/hugoSite/blog/3_post/</guid>
       <description>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Pellentesque in ipsum id orci porta dapibus.</description>
     </item>
     <item>
       <title>5.The 10 Golden Rules of Clean Simple Design</title>
-      <link>http://localhost:1313/hugoSite/blog/5_post/</link>
+      <link>https://robertbasement.github.io/hugoSite/blog/5_post/</link>
       <pubDate>Sat, 16 Sep 2017 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/hugoSite/blog/5_post/</guid>
+      <guid>https://robertbasement.github.io/hugoSite/blog/5_post/</guid>
       <description>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Pellentesque in ipsum id orci porta dapibus.</description>
     </item>
     <item>
       <title>The 10 Golden Rules of Clean Simple Design</title>
-      <link>http://localhost:1313/hugoSite/blog/first_post/</link>
+      <link>https://robertbasement.github.io/hugoSite/blog/first_post/</link>
       <pubDate>Sat, 16 Sep 2017 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/hugoSite/blog/first_post/</guid>
+      <guid>https://robertbasement.github.io/hugoSite/blog/first_post/</guid>
       <description>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Pellentesque in ipsum id orci porta dapibus.</description>
     </item>
   </channel>

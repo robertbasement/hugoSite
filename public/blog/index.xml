@@ -2,60 +2,74 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Blog on </title>
-    <link>http://localhost:1313/hugoSite/blog/</link>
+    <link>https://robertbasement.github.io/hugoSite/blog/</link>
     <description>Recent content in Blog on </description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 18 Mar 2025 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/hugoSite/blog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 14 Sep 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://robertbasement.github.io/hugoSite/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>去熊本紀錄 - 回歸blog建置</title>
+      <link>https://robertbasement.github.io/hugoSite/blog/return/</link>
+      <pubDate>Sun, 14 Sep 2025 00:00:00 +0000</pubDate>
+      <guid>https://robertbasement.github.io/hugoSite/blog/return/</guid>
+      <description>強勢回歸</description>
+    </item>
+    <item>
+      <title>CCL產業 K-means趨勢判讀</title>
+      <link>https://robertbasement.github.io/hugoSite/blog/4_post/</link>
+      <pubDate>Mon, 31 Mar 2025 00:00:00 +0000</pubDate>
+      <guid>https://robertbasement.github.io/hugoSite/blog/4_post/</guid>
+      <description>利用K-means 將CCL產業的ticker們的財物特徵作分群，判讀並預測未來產業趨勢</description>
+    </item>
     <item>
       <title>投資組合回測 - 月/季資料resample至日資料並轉換成module要求的Dict樣式</title>
-      <link>http://localhost:1313/hugoSite/blog/monthly_strategy_resample_backtest/</link>
+      <link>https://robertbasement.github.io/hugoSite/blog/monthly_strategy_resample_backtest/</link>
       <pubDate>Tue, 18 Mar 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/hugoSite/blog/monthly_strategy_resample_backtest/</guid>
+      <guid>https://robertbasement.github.io/hugoSite/blog/monthly_strategy_resample_backtest/</guid>
       <description>紀錄resample的資料轉換</description>
     </item>
     <item>
       <title>Stylesheet &#43; Hugo w/ chatgpt</title>
-      <link>http://localhost:1313/hugoSite/blog/2_post/</link>
+      <link>https://robertbasement.github.io/hugoSite/blog/2_post/</link>
       <pubDate>Mon, 10 Mar 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/hugoSite/blog/2_post/</guid>
+      <guid>https://robertbasement.github.io/hugoSite/blog/2_post/</guid>
       <description>如何將 Stylesheet 精美的靜態網頁與 Hugo的架構串在一起</description>
     </item>
     <item>
       <title>未來的todo list</title>
-      <link>http://localhost:1313/hugoSite/blog/1_test/</link>
+      <link>https://robertbasement.github.io/hugoSite/blog/1_test/</link>
       <pubDate>Mon, 10 Mar 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/hugoSite/blog/1_test/</guid>
+      <guid>https://robertbasement.github.io/hugoSite/blog/1_test/</guid>
       <description>每日基本課題, 中長期計畫</description>
     </item>
     <item>
       <title>3.The 10 Golden Rules of Clean Simple Design</title>
-      <link>http://localhost:1313/hugoSite/blog/3_post/</link>
+      <link>https://robertbasement.github.io/hugoSite/blog/3_post/</link>
       <pubDate>Sat, 16 Sep 2017 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/hugoSite/blog/3_post/</guid>
-      <description>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Pellentesque in ipsum id orci porta dapibus.</description>
-    </item>
-    <item>
-      <title>4.The 10 Golden Rules of Clean Simple Design</title>
-      <link>http://localhost:1313/hugoSite/blog/4_post/</link>
-      <pubDate>Sat, 16 Sep 2017 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/hugoSite/blog/4_post/</guid>
+      <guid>https://robertbasement.github.io/hugoSite/blog/3_post/</guid>
       <description>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Pellentesque in ipsum id orci porta dapibus.</description>
     </item>
     <item>
       <title>5.The 10 Golden Rules of Clean Simple Design</title>
-      <link>http://localhost:1313/hugoSite/blog/5_post/</link>
+      <link>https://robertbasement.github.io/hugoSite/blog/5_post/</link>
       <pubDate>Sat, 16 Sep 2017 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/hugoSite/blog/5_post/</guid>
+      <guid>https://robertbasement.github.io/hugoSite/blog/5_post/</guid>
       <description>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Pellentesque in ipsum id orci porta dapibus.</description>
     </item>
     <item>
       <title>The 10 Golden Rules of Clean Simple Design</title>
-      <link>http://localhost:1313/hugoSite/blog/first_post/</link>
+      <link>https://robertbasement.github.io/hugoSite/blog/first_post/</link>
       <pubDate>Sat, 16 Sep 2017 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/hugoSite/blog/first_post/</guid>
+      <guid>https://robertbasement.github.io/hugoSite/blog/first_post/</guid>
       <description>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Pellentesque in ipsum id orci porta dapibus.</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://robertbasement.github.io/hugoSite/blog/ccl_test/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://robertbasement.github.io/hugoSite/blog/ccl_test/</guid>
+      <description>&lt;h2 id=&#34;ccl-產業分析-k-means&#34;&gt;CCL 產業分析 K-means&lt;/h2&gt;&#xA;&lt;h2 id=&#34;goal--判讀產業趨勢並給予預測投資&#34;&gt;Goal : 判讀產業趨勢，並給予預測&amp;amp;投資&lt;/h2&gt;&#xA;&lt;h3 id=&#34;input--財務資料-股價資料etc&#34;&gt;Input : 財務資料, 股價資料etc&amp;hellip;&lt;/h3&gt;&#xA;&lt;h3 id=&#34;資料freq--季&#34;&gt;資料freq : 季&lt;/h3&gt;&#xA;&lt;h3 id=&#34;output--peak-expansionrecovery-low&#34;&gt;Output : Peak, Expansion/Recovery, Low&lt;/h3&gt;&#xA;&lt;h3 id=&#34;metric--silhouette_score越高則族群分的越開-但隨著加入的features越多則會越低-每群持有至下一季財報return的差距&#34;&gt;Metric : silhouette_score(越高則族群分的越開 但隨著加入的features越多則會越低), 每群持有至下一季財報return的差距&lt;/h3&gt;&#xA;&lt;h2 id=&#34;part-1-資料整理&#34;&gt;Part 1. 資料整理&lt;/h2&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;next_business_day_after_report&lt;/span&gt;(yyyyqq):&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    Convert &amp;#39;YYYYQQ&amp;#39; (quarterly financial period) to the first business day after the report date.&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    Parameters:&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;        yyyyqq (str): Year-Quarter string in &amp;#39;YYYYQQ&amp;#39; format.&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    &#xA;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    Returns:&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;        str: First business day after the financial report in &amp;#39;YYYYMMDD&amp;#39; format.&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    &amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;# Extract year and quarter&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    year &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; int(yyyyqq[:&lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;])&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    quarter &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; int(yyyyqq[&lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;:])&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;# Determine the report date based on quarter rules&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; quarter &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;:&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        report_date &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; pd&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Timestamp(year, &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;15&lt;/span&gt;)  &lt;span style=&#34;color:#75715e&#34;&gt;# Q1 → May 15 (Same Year)&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;elif&lt;/span&gt; quarter &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;:&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        report_date &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; pd&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Timestamp(year, &lt;span style=&#34;color:#ae81ff&#34;&gt;8&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;15&lt;/span&gt;)  &lt;span style=&#34;color:#75715e&#34;&gt;# Q2 → August 15 (Same Year)&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;elif&lt;/span&gt; quarter &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;:&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        report_date &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; pd&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Timestamp(year, &lt;span style=&#34;color:#ae81ff&#34;&gt;11&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;15&lt;/span&gt;)  &lt;span style=&#34;color:#75715e&#34;&gt;# Q3 → November 15 (Same Year)&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;elif&lt;/span&gt; quarter &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;:&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        report_date &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; pd&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Timestamp(year &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;15&lt;/span&gt;)  &lt;span style=&#34;color:#75715e&#34;&gt;# Q4 → March 15 (Next Year)&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt;:&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;raise&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ValueError&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Invalid quarter. QQ must be 01, 02, 03, or 04.&amp;#34;&lt;/span&gt;)&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;# Find the next business day&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    next_business_day &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; pd&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;offsets&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;BDay()&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;rollforward(report_date &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; pd&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Timedelta(days&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;))&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;# Return formatted date&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; next_business_day&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;strftime(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;%Y%m&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;%d&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&lt;/span&gt;)&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
   </channel>
 </rss>

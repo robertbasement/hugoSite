@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+
+
+
+<html class="no-js" lang="en">
+
+
+<head>
+
+    
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    
+
+    <link rel="stylesheet" href="../../css/base.css">
+    <link rel="stylesheet" href="../../css/vendor.css">
+    <link rel="stylesheet" href="../../css/main.css">
+
+
+    
+    
+
+    <script src="../../js/modernizr.js"></script>
+    <script src="../../js/pace.min.js"></script>
+    
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+</head>
+
+<body id="top">
+        
+    
+    
+    
+    
+     <header class="s-header">
+        <div class="header-logo">
+            <a class="site-logo" href="../../"><img src="../../images/logo.png" alt="Homepage"></a>
+        </div>
+
+        <nav class="header-nav-wrap">
+            <ul class="header-nav">
+                <li><a href="../../#home" title="home">Home</a></li>
+                <li><a href="../../#about" title="about">About</a></li>
+                <li><a href="../../#works" title="works">Works</a></li>
+                <li><a href="../../#blog" title="works">Blog Section</a></li>
+                <li class="current"><a href="../../blog/" title="blog">Blog</a></li>
+                
+            </ul>
+        </nav>
+
+        <a class="header-menu-toggle" href="#0"><span>Menu</span></a>
+    </header>
+    
+
+    <main>
+        
+
+    <article class="blog-single">
+
+        <div class="page-header page-header--single page-hero" style="background-image:url(/images/blog/blog-bg-02.jpg)">
+            <div class="row page-header__content narrow">
+                <article class="col-full">
+                    <div class="page-header__info">
+                        <div class="page-header__cat">
+                            
+                        </div>
+                    </div>
+                    <h1 class="page-header__title">
+                        
+                    </h1>
+                    <ul class="page-header__meta">
+                        <li class="date">January 1, 0001</li>
+                        <li class="author">
+                            By <span></span>
+                        </li>
+                    </ul>
+                </article>
+            </div>
+        </div>
+
+        <div class="row blog-content">
+            <div class="col-full blog-content__main">
+                <h2 id="ccl-產業分析-k-means">CCL 產業分析 K-means</h2>
+<h2 id="goal--判讀產業趨勢並給予預測投資">Goal : 判讀產業趨勢，並給予預測&amp;投資</h2>
+<h3 id="input--財務資料-股價資料etc">Input : 財務資料, 股價資料etc&hellip;</h3>
+<h3 id="資料freq--季">資料freq : 季</h3>
+<h3 id="output--peak-expansionrecovery-low">Output : Peak, Expansion/Recovery, Low</h3>
+<h3 id="metric--silhouette_score越高則族群分的越開-但隨著加入的features越多則會越低-每群持有至下一季財報return的差距">Metric : silhouette_score(越高則族群分的越開 但隨著加入的features越多則會越低), 每群持有至下一季財報return的差距</h3>
+<h2 id="part-1-資料整理">Part 1. 資料整理</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">next_business_day_after_report</span>(yyyyqq):
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Convert &#39;YYYYQQ&#39; (quarterly financial period) to the first business day after the report date.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Parameters:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        yyyyqq (str): Year-Quarter string in &#39;YYYYQQ&#39; format.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Returns:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        str: First business day after the financial report in &#39;YYYYMMDD&#39; format.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Extract year and quarter</span>
+</span></span><span style="display:flex;"><span>    year <span style="color:#f92672">=</span> int(yyyyqq[:<span style="color:#ae81ff">4</span>])
+</span></span><span style="display:flex;"><span>    quarter <span style="color:#f92672">=</span> int(yyyyqq[<span style="color:#ae81ff">4</span>:])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Determine the report date based on quarter rules</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> quarter <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>:
+</span></span><span style="display:flex;"><span>        report_date <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>Timestamp(year, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">15</span>)  <span style="color:#75715e"># Q1 → May 15 (Same Year)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> quarter <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span>:
+</span></span><span style="display:flex;"><span>        report_date <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>Timestamp(year, <span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">15</span>)  <span style="color:#75715e"># Q2 → August 15 (Same Year)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> quarter <span style="color:#f92672">==</span> <span style="color:#ae81ff">3</span>:
+</span></span><span style="display:flex;"><span>        report_date <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>Timestamp(year, <span style="color:#ae81ff">11</span>, <span style="color:#ae81ff">15</span>)  <span style="color:#75715e"># Q3 → November 15 (Same Year)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> quarter <span style="color:#f92672">==</span> <span style="color:#ae81ff">4</span>:
+</span></span><span style="display:flex;"><span>        report_date <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>Timestamp(year <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">15</span>)  <span style="color:#75715e"># Q4 → March 15 (Next Year)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">raise</span> <span style="color:#a6e22e">ValueError</span>(<span style="color:#e6db74">&#34;Invalid quarter. QQ must be 01, 02, 03, or 04.&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Find the next business day</span>
+</span></span><span style="display:flex;"><span>    next_business_day <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>offsets<span style="color:#f92672">.</span>BDay()<span style="color:#f92672">.</span>rollforward(report_date <span style="color:#f92672">+</span> pd<span style="color:#f92672">.</span>Timedelta(days<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Return formatted date</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> next_business_day<span style="color:#f92672">.</span>strftime(<span style="color:#e6db74">&#39;%Y%m</span><span style="color:#e6db74">%d</span><span style="color:#e6db74">&#39;</span>)
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"></code></pre></div>
+                
+
+                
+            </div>
+        </div>
+
+    </article>
+
+
+    </main>
+
+     
+    <footer>
+        <div class="row">
+            <div class="col-full">
+
+                <div class="footer-logo">
+                    <a class="footer-site-logo" href="../../"><img src="../../images/logo.png" alt="Homepage"></a>
+                </div>
+
+                <ul class="footer-social">
+                    <li><a href="#0">
+                        <i class="im im-facebook" aria-hidden="true"></i>
+                        <span>Facebook</span>
+                    </a></li>
+                    <li><a href="#0">
+                        <i class="im im-twitter" aria-hidden="true"></i>
+                        <span>Twitter</span>
+                    </a></li>
+                    <li><a href="#0">
+                        <i class="im im-instagram" aria-hidden="true"></i>
+                        <span>Instagram</span>
+                    </a></li>
+                    <li><a href="#0">
+                        <i class="im im-behance" aria-hidden="true"></i>
+                        <span>Behance</span>
+                    </a></li>
+                    <li><a href="#0">
+                        <i class="im im-pinterest" aria-hidden="true"></i>
+                        <span>Pinterest</span>
+                    </a></li>
+                </ul>
+                    
+            </div>
+        </div>
+
+        <div class="row footer-bottom">
+
+            <div class="col-twelve">
+                <div class="copyright">
+                    <span>© Copyright Hola 2017</span> 
+                    <span>Design by <a href="https://www.styleshout.com/">styleshout</a></span>	
+                </div>
+
+                <div class="go-top">
+                <a class="smoothscroll" title="Back to Top" href="#top"><i class="im im-arrow-up" aria-hidden="true"></i></a>
+                </div>
+            </div>
+
+        </div> 
+
+    </footer> 
+   
+
+
+    
+    <div aria-hidden="true" class="pswp" role="dialog" tabindex="-1">
+
+        <div class="pswp__bg"></div>
+        <div class="pswp__scroll-wrap">
+
+            <div class="pswp__container">
+                <div class="pswp__item"></div>
+                <div class="pswp__item"></div>
+                <div class="pswp__item"></div>
+            </div>
+
+            <div class="pswp__ui pswp__ui--hidden">
+                <div class="pswp__top-bar">
+                    <div class="pswp__counter"></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button> <button class="pswp__button pswp__button--share" title=
+                    "Share"></button> <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button> <button class="pswp__button pswp__button--zoom" title=
+                    "Zoom in/out"></button>
+                    <div class="pswp__preloader">
+                        <div class="pswp__preloader__icn">
+                            <div class="pswp__preloader__cut">
+                                <div class="pswp__preloader__donut"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                    <div class="pswp__share-tooltip"></div>
+                </div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button> <button class="pswp__button pswp__button--arrow--right" title=
+                "Next (arrow right)"></button>
+                <div class="pswp__caption">
+                    <div class="pswp__caption__center"></div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div id="preloader">
+        <div id="loader"></div>
+    </div>
+
+
+    
+    
+
+    <script src="../../js/jquery-3.2.1.min.js"></script>
+    <script src="../../js/plugins.js"></script>
+    <script src="../../js/main.js"></script>
+
+
+</body>
+
+</html>

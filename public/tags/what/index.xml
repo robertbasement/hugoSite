@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>What on </title>
+    <link>https://robertbasement.github.io/hugoSite/tags/what/</link>
+    <description>Recent content in What on </description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 14 Feb 2025 10:10:52 +0800</lastBuildDate>
+    <atom:link href="https://robertbasement.github.io/hugoSite/tags/what/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Whatisnext</title>
+      <link>https://robertbasement.github.io/hugoSite/whatisnext/</link>
+      <pubDate>Fri, 14 Feb 2025 10:10:52 +0800</pubDate>
+      <guid>https://robertbasement.github.io/hugoSite/whatisnext/</guid>
+      <description>&lt;p&gt;Summary is what is next&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

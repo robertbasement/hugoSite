@@ -1,12 +1,10 @@
 ---
-title: "4.The 10 Golden Rules of Clean Simple Design"
-date: 2017-09-16
+title: "CCL產業 K-means趨勢判讀"
+date: 2025-03-31
 type: "blog"
 categories:
-  - Branding
-  - Design
-summary: "Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Pellentesque in ipsum id orci porta dapibus."
+  - ML
+summary: "利用K-means 將CCL產業的ticker們的財物特徵作分群，判讀並預測未來產業趨勢"
 ---
-Your post content here...
 
 

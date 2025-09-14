@@ -2,45 +2,52 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on </title>
-    <link>http://localhost:1313/hugoSite/categories/</link>
+    <link>https://robertbasement.github.io/hugoSite/categories/</link>
     <description>Recent content in Categories on </description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 18 Mar 2025 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/hugoSite/categories/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Backtest</title>
-      <link>http://localhost:1313/hugoSite/categories/backtest/</link>
-      <pubDate>Tue, 18 Mar 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/hugoSite/categories/backtest/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Trading Strategy</title>
-      <link>http://localhost:1313/hugoSite/categories/trading-strategy/</link>
-      <pubDate>Tue, 18 Mar 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/hugoSite/categories/trading-strategy/</guid>
-      <description></description>
-    </item>
+    <lastBuildDate>Sun, 14 Sep 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://robertbasement.github.io/hugoSite/categories/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Branding</title>
-      <link>http://localhost:1313/hugoSite/categories/branding/</link>
-      <pubDate>Mon, 10 Mar 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/hugoSite/categories/branding/</guid>
+      <link>https://robertbasement.github.io/hugoSite/categories/branding/</link>
+      <pubDate>Sun, 14 Sep 2025 00:00:00 +0000</pubDate>
+      <guid>https://robertbasement.github.io/hugoSite/categories/branding/</guid>
       <description></description>
     </item>
     <item>
       <title>Design</title>
-      <link>http://localhost:1313/hugoSite/categories/design/</link>
-      <pubDate>Mon, 10 Mar 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/hugoSite/categories/design/</guid>
+      <link>https://robertbasement.github.io/hugoSite/categories/design/</link>
+      <pubDate>Sun, 14 Sep 2025 00:00:00 +0000</pubDate>
+      <guid>https://robertbasement.github.io/hugoSite/categories/design/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>ML</title>
+      <link>https://robertbasement.github.io/hugoSite/categories/ml/</link>
+      <pubDate>Mon, 31 Mar 2025 00:00:00 +0000</pubDate>
+      <guid>https://robertbasement.github.io/hugoSite/categories/ml/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Backtest</title>
+      <link>https://robertbasement.github.io/hugoSite/categories/backtest/</link>
+      <pubDate>Tue, 18 Mar 2025 00:00:00 +0000</pubDate>
+      <guid>https://robertbasement.github.io/hugoSite/categories/backtest/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Trading Strategy</title>
+      <link>https://robertbasement.github.io/hugoSite/categories/trading-strategy/</link>
+      <pubDate>Tue, 18 Mar 2025 00:00:00 +0000</pubDate>
+      <guid>https://robertbasement.github.io/hugoSite/categories/trading-strategy/</guid>
       <description></description>
     </item>
     <item>
       <title>Web Design</title>
-      <link>http://localhost:1313/hugoSite/categories/web-design/</link>
+      <link>https://robertbasement.github.io/hugoSite/categories/web-design/</link>
       <pubDate>Mon, 10 Mar 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/hugoSite/categories/web-design/</guid>
+      <guid>https://robertbasement.github.io/hugoSite/categories/web-design/</guid>
       <description></description>
     </item>
   </channel>

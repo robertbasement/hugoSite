@@ -311,7 +311,7 @@ pre > code {
 
 /* Code blocks (```python ...) */
 pre {
-    background-color: #fffbfb !important; /* gentle gray background */
+    background-color: #f6f8fa !important; /* gentle gray background */
     color: #333 !important;              /* dark text */
     padding: 12px;
     border-radius: 5px;
@@ -323,7 +323,7 @@ pre {
 
 /* Inline code (single backtick) */
 code {
-    background-color: #ffffff !important;
+    background-color: #f1f1f1 !important;
     color: #555 !important;
     padding: 2px 4px;
     border-radius: 3px;

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ML on </title>
+    <link>https://robertbasement.github.io/hugoSite/categories/ml/</link>
+    <description>Recent content in ML on </description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 31 Mar 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://robertbasement.github.io/hugoSite/categories/ml/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CCL產業 K-means趨勢判讀</title>
+      <link>https://robertbasement.github.io/hugoSite/blog/4_post/</link>
+      <pubDate>Mon, 31 Mar 2025 00:00:00 +0000</pubDate>
+      <guid>https://robertbasement.github.io/hugoSite/blog/4_post/</guid>
+      <description>利用K-means 將CCL產業的ticker們的財物特徵作分群，判讀並預測未來產業趨勢</description>
+    </item>
+  </channel>
+</rss>
